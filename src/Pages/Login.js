@@ -13,19 +13,17 @@ function Login({ history }) {
     return regex.test(email);
   }
 
-  function verifyFormDatas() {
-    if (inputEmail.length > 0 && inputPassword.length > 0) {
-      const NumberOfCaractersForPassword = 6;
-      const validInputEmail = validEmail(inputEmail);
-      const validInputPassword = inputPassword.length > NumberOfCaractersForPassword;
-      const enableButton = !(validInputPassword && validInputEmail);
-      setButtonDisabled(enableButton);
-    }
-  }
-
   useEffect(() => {
+    function verifyFormDatas() {
+      if (inputEmail.length > 0 && inputPassword.length > 0) {
+        const NumberOfCaractersForPassword = 6;
+        const validInputEmail = validEmail(inputEmail);
+        const validInputPassword = inputPassword.length > NumberOfCaractersForPassword;
+        const enableButton = !(validInputPassword && validInputEmail);
+        setButtonDisabled(enableButton);
+      }
+    }
     verifyFormDatas();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputEmail, inputPassword]);
 
   function formSubmit(e) {
