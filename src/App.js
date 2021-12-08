@@ -1,14 +1,17 @@
 import React from 'react';
 import './App.css';
+import { Route, Switch } from 'react-router-dom';
 import Login from './Pages/Login';
-
-/* import rockGlass from './images/rockGlass.svg'; */
+import Foods from './Pages/Foods';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
     <div>
-      <Login />
+      <Switch>
+        <Route exact path="/" component={ Login } />
+        <Route path="/comidas" component={ Foods } />
+      </Switch>
     </div>
   );
 }
