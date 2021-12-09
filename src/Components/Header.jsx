@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import fetchFreeMealAPI from '../services/fetchFreeMealAPI';
 import fetchTheCocktailAPI from '../services/fetchTheCocktailAPI';
+import AppContext from '../context/AppContext';
 
 function Header({ title, hasSearchButton = true }) {
   const history = useHistory();
+  const { setArrayDrinks, setArrayMeals } = useContext(AppContext);
   const [clickSearch, setClickSearch] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [radioValue, setRadioValue] = useState('ingredient');
@@ -16,14 +18,26 @@ function Header({ title, hasSearchButton = true }) {
     e.preventDefault();
     if (radioValue === 'firstLetter' && inputValue.length > 1) {
       global.alert('Sua busca deve conter somente 1 (um) caracter');
+      return;
     }
 
     if (title === 'Comidas') {
       const foodsData = await fetchFreeMealAPI({ [radioValue]: inputValue });
+      if (foodsData.length === 1) {
+        history.push(`/comidas/${foodsData[0].idMeal}`);
+      }
+
+      setArrayMeals(foodsData);
+      console.log({ foodsData });
     }
 
     if (title === 'Bebidas') {
       const drinksData = await fetchTheCocktailAPI({ [radioValue]: inputValue });
+      if (drinksData.length === 1) {
+        history.push(`/bebidas/${drinksData[0].idDrink}`);
+      }
+      setArrayDrinks(drinksData);
+      console.log({ drinksData });
     }
   }
 
