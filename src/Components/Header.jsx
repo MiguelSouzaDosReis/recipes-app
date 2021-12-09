@@ -33,7 +33,6 @@ function Header({ title, hasSearchButton = true }) {
         <form onSubmit={ (e) => e.preventDefault() }>
           <input data-testid="search-input" type="text" />
           <label htmlFor="ingrediente">
-            Ingrediente
             <input
               id="ingrediente"
               value="ingrediente"
@@ -41,9 +40,9 @@ function Header({ title, hasSearchButton = true }) {
               type="radio"
               data-testid="ingredient-search-radio"
             />
+            Ingrediente
           </label>
           <label htmlFor="nome">
-            Nome
             <input
               id="nome"
               value="nome"
@@ -51,9 +50,9 @@ function Header({ title, hasSearchButton = true }) {
               type="radio"
               data-testid="name-search-radio"
             />
+            Nome
           </label>
           <label htmlFor="primeira-letra">
-            Primeira letra
             <input
               id="primeira-letra"
               value="primeira letra"
@@ -61,6 +60,7 @@ function Header({ title, hasSearchButton = true }) {
               type="radio"
               data-testid="first-letter-search-radio"
             />
+            Primeira letra
           </label>
           <button
             data-testid="exec-search-btn"
