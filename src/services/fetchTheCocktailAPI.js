@@ -20,17 +20,17 @@ const fetchTheCocktailAPI = async ({ ingredient, name, firstLetter }) => {
   console.log(ingredient, name, firstLetter);
   if (ingredient) {
     const data = await searchByIngredient(ingredient);
-    return data;
+    return data.drinks;
   }
 
   if (name) {
     const data = await searchByName(name);
-    return data;
+    return data.drinks;
   }
 
   if (firstLetter) {
     const data = await searchByFirstLetter(firstLetter);
-    return data;
+    return data.drinks;
   }
 };
 
