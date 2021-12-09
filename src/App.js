@@ -20,23 +20,25 @@ function App() {
     <div>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route path="/comidas" component={ FindFoods } />
-        <Route path="/bebidas" component={ FindDrinks } />
-        <Route path="/explorar" component={ Explorer } />
-        <Route path="/explorar/comidas" component={ ExploreFoods } />
-        <Route path="/explorar/bebidas" component={ ExploreDrink } />
+        <Route exact path="/comidas" component={ FindFoods } />
+        <Route exact path="/bebidas" component={ FindDrinks } />
+        <Route exact path="/explorar" component={ Explorer } />
+        <Route exact path="/explorar/comidas" component={ ExploreFoods } />
+        <Route exact path="/explorar/bebidas" component={ ExploreDrink } />
         <Route
+          exact
           path="/explorar/comidas/ingredientes"
           component={ ExploreFoodsByIngredients }
         />
         <Route
+          exact
           path="/explorar/bebidas/ingredientes"
           component={ ExploreDrinksByIngredients }
         />
-        <Route path="/explorar/comidas/area" component={ ExploreFoodsArea } />
+        <Route exact path="/explorar/comidas/area" component={ ExploreFoodsArea } />
         <Route path="/perfil" component={ Profile } />
-        <Route path="/receitas-feitas" component={ RecipesDone } />
-        <Route path="/receitas-favoritas" component={ FavoriteRecipes } />
+        <Route exact path="/receitas-feitas" component={ RecipesDone } />
+        <Route exact path="/receitas-favoritas" component={ FavoriteRecipes } />
       </Switch>
     </div>
   );
