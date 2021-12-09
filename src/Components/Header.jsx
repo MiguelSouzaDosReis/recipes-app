@@ -3,10 +3,23 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import fetchFreeMealAPI from '../services/fetchFreeMealAPI';
 
 function Header({ title, hasSearchButton = true }) {
   const history = useHistory();
   const [clickSearch, setClickSearch] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [radioValue, setRadioValue] = useState('ingredient');
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (radioValue === 'firstLetter' && inputValue.length > 1) {
+      global.alert('Sua busca deve conter somente 1 (um) caracter');
+    } else {
+      const data = await fetchFreeMealAPI({ [radioValue]: inputValue });
+      console.log(data);
+    }
+  }
 
   return (
     <header className="header">
@@ -30,35 +43,44 @@ function Header({ title, hasSearchButton = true }) {
         </button>
       )}
       {clickSearch && (
-        <form onSubmit={ (e) => e.preventDefault() }>
-          <input data-testid="search-input" type="text" />
+        <form onSubmit={ (e) => handleSubmit(e) }>
+          <input
+            data-testid="search-input"
+            type="text"
+            placeholder="Pesquisar"
+            value={ inputValue }
+            onChange={ ({ target }) => setInputValue(target.value) }
+          />
           <label htmlFor="ingrediente">
             <input
               id="ingrediente"
-              value="ingrediente"
+              value="ingredient"
               name="form-radio"
               type="radio"
               data-testid="ingredient-search-radio"
+              onChange={ ({ target }) => setRadioValue(target.value) }
             />
             Ingrediente
           </label>
           <label htmlFor="nome">
             <input
               id="nome"
-              value="nome"
+              value="name"
               name="form-radio"
               type="radio"
               data-testid="name-search-radio"
+              onChange={ ({ target }) => setRadioValue(target.value) }
             />
             Nome
           </label>
           <label htmlFor="primeira-letra">
             <input
               id="primeira-letra"
-              value="primeira letra"
+              value="firstLetter"
               name="form-radio"
               type="radio"
               data-testid="first-letter-search-radio"
+              onChange={ ({ target }) => setRadioValue(target.value) }
             />
             Primeira letra
           </label>
@@ -77,9 +99,6 @@ function Header({ title, hasSearchButton = true }) {
 Header.propTypes = {
   title: PropTypes.string.isRequired,
   hasSearchButton: PropTypes.bool,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 Header.defaultProps = {
