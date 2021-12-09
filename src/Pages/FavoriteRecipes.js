@@ -6,7 +6,7 @@ function FavoriteRecipes() {
     <main>
       <Header
         title="Receitas Favoritas"
-        sSearchButton={ false }
+        hasSearchButton={ false }
       />
       <h1>Favorite Recipes</h1>
     </main>
