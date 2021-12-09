@@ -23,21 +23,34 @@ function Header({ title, hasSearchButton = true }) {
 
     if (title === 'Comidas') {
       const foodsData = await fetchFreeMealAPI({ [radioValue]: inputValue });
+
+      if (foodsData === null) {
+        global.alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
+        return;
+      }
+
       if (foodsData.length === 1) {
         history.push(`/comidas/${foodsData[0].idMeal}`);
       }
 
+      console.log(foodsData);
       setArrayMeals(foodsData);
-      console.log({ foodsData });
     }
 
     if (title === 'Bebidas') {
       const drinksData = await fetchTheCocktailAPI({ [radioValue]: inputValue });
+
+      if (drinksData === null) {
+        global.alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
+        return;
+      }
+
       if (drinksData.length === 1) {
         history.push(`/bebidas/${drinksData[0].idDrink}`);
       }
+
+      console.log(drinksData);
       setArrayDrinks(drinksData);
-      console.log({ drinksData });
     }
   }
 
