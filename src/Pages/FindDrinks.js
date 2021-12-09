@@ -4,7 +4,7 @@ import Header from '../Components/Header';
 function FindDrinks() {
   return (
     <main>
-      <Header />
+      <Header title="Bebidas" />
       <h1>Drinks</h1>
     </main>
   );

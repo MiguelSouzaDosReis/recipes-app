@@ -4,7 +4,10 @@ import Header from '../Components/Header';
 function FavoriteRecipes() {
   return (
     <main>
-      <Header />
+      <Header
+        title="Receitas Favoritas"
+        sSearchButton={ false }
+      />
       <h1>Favorite Recipes</h1>
     </main>
   );

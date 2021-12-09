@@ -5,7 +5,7 @@ function Profile() {
   return (
     <main>
       <div>
-        <Header />
+        <Header title="Perfil" hasSearchButton={ false } />
         <h1>Profile</h1>
       </div>
     </main>

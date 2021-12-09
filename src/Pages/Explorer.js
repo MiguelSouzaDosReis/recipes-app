@@ -4,7 +4,7 @@ import Header from '../Components/Header';
 function Explorer() {
   return (
     <main>
-      <Header />
+      <Header title="Explorar" hasSearchButton={ false } />
       <h1>Explorer</h1>
     </main>
   );
