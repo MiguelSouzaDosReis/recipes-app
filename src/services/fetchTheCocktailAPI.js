@@ -17,20 +17,34 @@ const searchByFirstLetter = async (firstLetter) => {
 };
 
 const fetchTheCocktailAPI = async ({ ingredient, name, firstLetter }) => {
-  console.log(ingredient, name, firstLetter);
   if (ingredient) {
-    const data = await searchByIngredient(ingredient);
-    return data.drinks;
+    try {
+      const data = await searchByIngredient(ingredient);
+      return data.drinks;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 
   if (name) {
-    const data = await searchByName(name);
-    return data.drinks;
+    try {
+      const data = await searchByName(name);
+      return data.drinks;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 
   if (firstLetter) {
-    const data = await searchByFirstLetter(firstLetter);
-    return data.drinks;
+    try {
+      const data = await searchByFirstLetter(firstLetter);
+      return data.drinks;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 };
 

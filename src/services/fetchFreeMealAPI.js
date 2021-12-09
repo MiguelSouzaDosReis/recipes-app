@@ -17,20 +17,31 @@ const searchByFirstLetter = async (firstLetter) => {
 };
 
 const fetchFreeMealAPI = async ({ ingredient, name, firstLetter }) => {
-  console.log(ingredient, name, firstLetter);
   if (ingredient) {
-    const data = await searchByIngredient(ingredient);
-    return data.meals;
+    try {
+      const data = await searchByIngredient(ingredient);
+      return data.meals;
+    } catch (error) {
+      return null;
+    }
   }
 
   if (name) {
-    const data = await searchByName(name);
-    return data.meals;
+    try {
+      const data = await searchByName(name);
+      return data.meals;
+    } catch (error) {
+      return null;
+    }
   }
 
   if (firstLetter) {
-    const data = await searchByFirstLetter(firstLetter);
-    return data.meals;
+    try {
+      const data = await searchByFirstLetter(firstLetter);
+      return data.meals;
+    } catch (error) {
+      return null;
+    }
   }
 };
 
