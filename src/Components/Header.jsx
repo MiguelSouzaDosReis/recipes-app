@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import fetchFreeMealAPI from '../services/fetchFreeMealAPI';
+import fetchTheCocktailAPI from '../services/fetchTheCocktailAPI';
 
 function Header({ title, hasSearchButton = true }) {
   const history = useHistory();
@@ -15,9 +16,14 @@ function Header({ title, hasSearchButton = true }) {
     e.preventDefault();
     if (radioValue === 'firstLetter' && inputValue.length > 1) {
       global.alert('Sua busca deve conter somente 1 (um) caracter');
-    } else {
-      const data = await fetchFreeMealAPI({ [radioValue]: inputValue });
-      console.log(data);
+    }
+
+    if (title === 'Comidas') {
+      const foodsData = await fetchFreeMealAPI({ [radioValue]: inputValue });
+    }
+
+    if (title === 'Bebidas') {
+      const drinksData = await fetchTheCocktailAPI({ [radioValue]: inputValue });
     }
   }
 
