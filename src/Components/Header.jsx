@@ -29,7 +29,47 @@ function Header({ title, hasSearchButton = true }) {
           <img data-testid="search-top-btn" src={ searchIcon } alt="icone de pesquisa" />
         </button>
       )}
-      {clickSearch && <input data-testid="search-input" type="text" />}
+      {clickSearch && (
+        <form onSubmit={ (e) => e.preventDefault() }>
+          <input data-testid="search-input" type="text" />
+          <label htmlFor="ingrediente">
+            Ingrediente
+            <input
+              id="ingrediente"
+              value="ingrediente"
+              name="form-radio"
+              type="radio"
+              data-testid="ingredient-search-radio"
+            />
+          </label>
+          <label htmlFor="nome">
+            Nome
+            <input
+              id="nome"
+              value="nome"
+              name="form-radio"
+              type="radio"
+              data-testid="name-search-radio"
+            />
+          </label>
+          <label htmlFor="primeira-letra">
+            Primeira letra
+            <input
+              id="primeira-letra"
+              value="primeira letra"
+              name="form-radio"
+              type="radio"
+              data-testid="first-letter-search-radio"
+            />
+          </label>
+          <button
+            data-testid="exec-search-btn"
+            type="submit"
+          >
+            Buscar
+          </button>
+        </form>
+      )}
     </header>
   );
 }
