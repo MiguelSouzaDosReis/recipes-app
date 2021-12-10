@@ -8,28 +8,38 @@ function Footer() {
   const history = useHistory();
   return (
     <footer
+      style={ { position: 'fixed', bottom: 0 } }
       data-testid="footer"
     >
       <button
-        data-testid="food-bottom-btn"
         onClick={ () => history.push('/comidas') }
         type="button"
       >
-        <img src={ mealIcon } alt="imagem de comida" />
+        <img
+          data-testid="food-bottom-btn"
+          src={ mealIcon }
+          alt="imagem de comida"
+        />
       </button>
       <button
-        data-testid="drinks-bottom-btn"
         onClick={ () => history.push('/bebidas') }
         type="button"
       >
-        <img src={ drinkIcon } alt="Bebidas" />
+        <img
+          data-testid="drinks-bottom-btn"
+          src={ drinkIcon }
+          alt="Bebidas"
+        />
       </button>
       <button
         type="button"
-        data-testid="explore-bottom-btn"
         onClick={ () => history.push('/explorar') }
       >
-        <img src={ exploreIcon } alt="Explorar" />
+        <img
+          data-testid="explore-bottom-btn"
+          src={ exploreIcon }
+          alt="Explorar"
+        />
       </button>
     </footer>
   );
