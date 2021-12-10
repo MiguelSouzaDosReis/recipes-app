@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import AppContext from '../context/AppContext';
 
@@ -50,6 +51,7 @@ function FindFoods() {
       >
         Próximo
       </button>
+      <Footer />
     </main>
   );
 }
