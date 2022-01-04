@@ -19,6 +19,8 @@ const ProviderContext = ({ children }) => {
   const [drinkCategories, setDrinkCategories] = useState([]);
   const [drinkNameCategory, setDrinkNameCategory] = useState('');
   const [mealNameCategory, setMealNameCategory] = useState('');
+  const [currentMealRecipe, setCurrentMealRecipe] = useState({});
+  const [currentDrinkRecipe, setCurrentDrinkRecipe] = useState({});
   /* const [doneRecipes, setDoneRecipes] = useState([[{
     id: '',
     type: '',
@@ -112,13 +114,17 @@ const ProviderContext = ({ children }) => {
     drinkCategories,
     drinkNameCategory,
     mealNameCategory,
+    isFetchLoaded,
+    currentMealRecipe,
+    currentDrinkRecipe,
     setDrinkNameCategory,
     setMealNameCategory,
     setMealsToken,
     setcocktailsToken,
     setArrayDrinks,
     setArrayMeals,
-    isFetchLoaded,
+    setCurrentMealRecipe,
+    setCurrentDrinkRecipe,
   };
 
   return (
