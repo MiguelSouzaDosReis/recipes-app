@@ -4,6 +4,14 @@ import PropTypes from 'prop-types';
 function CategoriesButtons({ categories, onClick }) {
   return (
     <>
+      <button
+        type="button"
+        name=""
+        data-testid="All-category-filter"
+        onClick={ onClick }
+      >
+        All
+      </button>
       {categories.map(({ strCategory }) => (
         <button
           type="button"
