@@ -11,9 +11,9 @@ function FindDrinks() {
     drinks,
     isFetchLoaded,
     drinkCategories,
+    drinkNameCategory,
     setDrinkNameCategory,
   } = useContext(AppContext);
-  console.log(drinks);
   const [inicialIndex, setInicialIndex] = useState(inicial);
   const [finalIndex, setFinalIndex] = useState(final);
 
@@ -34,13 +34,17 @@ function FindDrinks() {
 
   const CATEGORIES_LIST_SIZE = 5;
 
+  const onCategoryButtonClick = (clickedCategory) => {
+    setDrinkNameCategory(drinkNameCategory === clickedCategory ? '' : clickedCategory);
+  };
+
   return (
     <main>
       <Header title="Bebidas" />
       { isFetchLoaded && drinkCategories && (
         <CategoriesButtons
           categories={ drinkCategories.slice(0, CATEGORIES_LIST_SIZE) }
-          onClick={ ({ target }) => setDrinkNameCategory(target.name) }
+          onClick={ ({ target }) => onCategoryButtonClick(target.name) }
         />
       )}
       { (isFetchLoaded && drinks !== null) && (

@@ -67,6 +67,10 @@ const ProviderContext = ({ children }) => {
   useEffect(() => {
     const getDrinkCategory = async () => {
       setFetchLoaded(false);
+      if (drinkNameCategory === '') {
+        const drinkCategory = await fetchDrinksDefault();
+        setDrinks(drinkCategory);
+      }
       if (drinkNameCategory !== '') {
         const drinkCategory = await fetchDrinksByCategory(drinkNameCategory);
         setDrinks(drinkCategory);
@@ -78,9 +82,12 @@ const ProviderContext = ({ children }) => {
   useEffect(() => {
     const getMealCategory = async () => {
       setFetchLoaded(false);
+      if (mealNameCategory === '') {
+        const mealCategory = await fetchMealsDefault();
+        setMeals(mealCategory);
+      }
       if (mealNameCategory !== '') {
         const mealCategory = await fetchFoodsByCategory(mealNameCategory);
-        console.log(mealCategory);
         setMeals(mealCategory);
       }
     };
@@ -103,6 +110,8 @@ const ProviderContext = ({ children }) => {
     drinks,
     foodCategories,
     drinkCategories,
+    drinkNameCategory,
+    mealNameCategory,
     setDrinkNameCategory,
     setMealNameCategory,
     setMealsToken,

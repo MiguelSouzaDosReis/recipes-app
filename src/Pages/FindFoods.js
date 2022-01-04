@@ -11,6 +11,7 @@ function FindFoods() {
     meals,
     isFetchLoaded,
     foodCategories,
+    mealNameCategory,
     setMealNameCategory,
   } = useContext(AppContext);
   const [inicialIndex, setInicialIndex] = useState(inicial);
@@ -31,6 +32,10 @@ function FindFoods() {
     setFinalIndex(finalIndex + final + 1);
   };
 
+  const onCategoryButtonClick = (clickedCategory) => {
+    setMealNameCategory(mealNameCategory === clickedCategory ? '' : clickedCategory);
+  };
+
   const CATEGORIES_LIST_SIZE = 5;
   return (
     <main>
@@ -38,7 +43,7 @@ function FindFoods() {
       { isFetchLoaded && foodCategories && (
         <CategoriesButtons
           categories={ foodCategories.slice(0, CATEGORIES_LIST_SIZE) }
-          onClick={ ({ target }) => setMealNameCategory(target.name) }
+          onClick={ ({ target }) => onCategoryButtonClick(target.name) }
         />
       )}
       { (isFetchLoaded && meals !== null) && (
