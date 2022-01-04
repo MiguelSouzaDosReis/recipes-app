@@ -37,7 +37,7 @@ function FindDrinks() {
   return (
     <main>
       <Header title="Bebidas" />
-      { isFetchLoaded && (
+      { isFetchLoaded && drinkCategories && (
         <CategoriesButtons
           categories={ drinkCategories.slice(0, CATEGORIES_LIST_SIZE) }
           onClick={ ({ target }) => setDrinkNameCategory(target.name) }
