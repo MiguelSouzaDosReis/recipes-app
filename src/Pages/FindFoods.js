@@ -35,7 +35,7 @@ function FindFoods() {
   return (
     <main>
       <Header title="Comidas" />
-      { isFetchLoaded && (
+      { isFetchLoaded && foodCategories && (
         <CategoriesButtons
           categories={ foodCategories.slice(0, CATEGORIES_LIST_SIZE) }
           onClick={ ({ target }) => setMealNameCategory(target.name) }
