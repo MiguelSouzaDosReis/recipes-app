@@ -33,7 +33,6 @@ function Header({ title, hasSearchButton = true }) {
         history.push(`/comidas/${foodsData[0].idMeal}`);
       }
 
-      console.log(foodsData);
       setArrayMeals(foodsData);
     }
 
@@ -49,7 +48,6 @@ function Header({ title, hasSearchButton = true }) {
         history.push(`/bebidas/${drinksData[0].idDrink}`);
       }
 
-      console.log(drinksData);
       setArrayDrinks(drinksData);
     }
   }
