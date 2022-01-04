@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
 import AppContext from '../context/AppContext';
 import CategoriesButtons from '../Components/CategoriesButtons';
@@ -51,21 +52,25 @@ function FindDrinks() {
         <div>
           {(drinks.length > 0) && (
             filterDrink.map((drink, index) => (
-              <article
-                data-testid={ `${index}-recipe-card` }
+              <Link
                 key={ drink.idDrink }
+                to={ `/bebidas/${drink.idDrink}` }
               >
-                <h1
-                  data-testid={ `${index}-card-name` }
+                <article
+                  data-testid={ `${index}-recipe-card` }
                 >
-                  { drink.strDrink }
-                </h1>
-                <img
-                  src={ drink.strDrinkThumb }
-                  alt={ drink.strDrink }
-                  data-testid={ `${index}-card-img` }
-                />
-              </article>
+                  <h1
+                    data-testid={ `${index}-card-name` }
+                  >
+                    { drink.strDrink }
+                  </h1>
+                  <img
+                    src={ drink.strDrinkThumb }
+                    alt={ drink.strDrink }
+                    data-testid={ `${index}-card-img` }
+                  />
+                </article>
+              </Link>
             ))
           )}
           <button
