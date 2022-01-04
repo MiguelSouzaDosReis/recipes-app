@@ -14,6 +14,8 @@ import ExploreFoodsArea from './Pages/ExploreFoodsArea';
 import RecipesDone from './Pages/RecipesDone';
 import FavoriteRecipes from './Pages/FavoriteRecipes';
 import ProviderContext from './context/ProviderContext';
+import FoodDetails from './Pages/FoodDetails';
+import DrinkDetails from './Pages/DrinkDetails';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -23,7 +25,9 @@ function App() {
         <Switch>
           <Route exact path="/" component={ Login } />
           <Route exact path="/comidas" component={ FindFoods } />
+          <Route exact path="/comidas/:slug" component={ FoodDetails } />
           <Route exact path="/bebidas" component={ FindDrinks } />
+          <Route exact path="/bebidas/:slug" component={ DrinkDetails } />
           <Route exact path="/explorar" component={ Explorer } />
           <Route exact path="/explorar/comidas" component={ ExploreFoods } />
           <Route exact path="/explorar/bebidas" component={ ExploreDrink } />
