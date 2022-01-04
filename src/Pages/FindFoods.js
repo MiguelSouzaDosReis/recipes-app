@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useHistory, Link } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import AppContext from '../context/AppContext';
@@ -7,10 +8,12 @@ import CategoriesButtons from '../Components/CategoriesButtons';
 const inicial = 0;
 const final = 11;
 function FindFoods() {
+  const history = useHistory();
   const {
     meals,
     isFetchLoaded,
     foodCategories,
+    mealNameCategory,
     setMealNameCategory,
   } = useContext(AppContext);
   const [inicialIndex, setInicialIndex] = useState(inicial);
@@ -31,6 +34,14 @@ function FindFoods() {
     setFinalIndex(finalIndex + final + 1);
   };
 
+  const onCategoryButtonClick = (clickedCategory) => {
+    setMealNameCategory(mealNameCategory === clickedCategory ? '' : clickedCategory);
+  };
+
+  const onFoodCardClick = (mealID) => {
+    history.push(`/comidas/${mealID}`);
+  };
+
   const CATEGORIES_LIST_SIZE = 5;
   return (
     <main>
@@ -38,28 +49,33 @@ function FindFoods() {
       { isFetchLoaded && foodCategories && (
         <CategoriesButtons
           categories={ foodCategories.slice(0, CATEGORIES_LIST_SIZE) }
-          onClick={ ({ target }) => setMealNameCategory(target.name) }
+          onClick={ ({ target }) => onCategoryButtonClick(target.name) }
         />
       )}
       { (isFetchLoaded && meals !== null) && (
         <div>
           {(meals.length > 0) && (
             filteredMeals.map((meal, index) => (
-              <article
-                data-testid={ `${index}-recipe-card` }
+              <Link
                 key={ meal.idMeal }
+                onClick={ () => onFoodCardClick(meal.idMeal) }
+                href={ `/bebidas/${meal.idMeal}` }
               >
-                <h1
-                  data-testid={ `${index}-card-name` }
+                <article
+                  data-testid={ `${index}-recipe-card` }
                 >
-                  { meal.strMeal }
-                </h1>
-                <img
-                  src={ meal.strMealThumb }
-                  alt={ meal.strMeal }
-                  data-testid={ `${index}-card-img` }
-                />
-              </article>
+                  <h1
+                    data-testid={ `${index}-card-name` }
+                  >
+                    { meal.strMeal }
+                  </h1>
+                  <img
+                    src={ meal.strMealThumb }
+                    alt={ meal.strMeal }
+                    data-testid={ `${index}-card-img` }
+                  />
+                </article>
+              </Link>
             ))
           )}
           <button
