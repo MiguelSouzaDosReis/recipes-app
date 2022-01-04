@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import Header from '../Components/Header';
 import AppContext from '../context/AppContext';
 import CategoriesButtons from '../Components/CategoriesButtons';
+import Footer from '../Components/Footer';
 
 const inicial = 0;
 const final = 11;
@@ -71,6 +72,13 @@ function FindDrinks() {
           </button>
         </div>
       )}
+      <button
+        type="button"
+        onClick={ onNextButtonClick }
+      >
+        Próximo
+      </button>
+      <Footer />
     </main>
   );
 }

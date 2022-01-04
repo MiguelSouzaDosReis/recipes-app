@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 
 function ExploreDrink() {
@@ -9,6 +10,7 @@ function ExploreDrink() {
         hasSearchButton={ false }
       />
       <h1>Explore Drinks</h1>
+      <Footer />
     </main>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import AppContext from '../context/AppContext';
 import CategoriesButtons from '../Components/CategoriesButtons';
@@ -69,6 +70,13 @@ function FindFoods() {
           </button>
         </div>
       )}
+      <button
+        type="button"
+        onClick={ onNextButtonClick }
+      >
+        Próximo
+      </button>
+      <Footer />
     </main>
   );
 }
