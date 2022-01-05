@@ -7,27 +7,34 @@ import AppContext from '../context/AppContext';
 function FoodDetails() {
   const { slug } = useParams();
   const { currentMealRecipe, setCurrentMealRecipe } = useContext(AppContext);
-  const [drinksRecomendation, setDrinksRecomendation] = useState('');
+  const [drinksRecomendation, setDrinksRecomendation] = useState([]);
   const ingredientsArray = [];
+  const measureArray = [];
   const MAX_INGREDIENT_SIZE = 20;
+  const RECOMENDATION_CARD_SIZE = 6;
   useEffect(() => {
     async function getRecipe() {
       const recipe = await fetchFoodRecipe(slug);
+      const splitedLink = recipe.strYoutube.split('watch?v=');
+      const embedLink = `${splitedLink[0]}embed/${splitedLink[1]}`;
+      recipe.strYoutube = embedLink;
       setCurrentMealRecipe(recipe);
     }
     async function getDefaultRecomendations() {
       const defaultRecomendation = await fetchDrinksDefault();
       setDrinksRecomendation(defaultRecomendation);
-      console.log(defaultRecomendation);
     }
     getRecipe();
     getDefaultRecomendations();
   }, [setCurrentMealRecipe, slug]);
-
+  console.log(currentMealRecipe);
   if (currentMealRecipe) {
     for (let i = 1; i <= MAX_INGREDIENT_SIZE; i += 1) {
       if (currentMealRecipe[`strIngredient${i}`]) {
         ingredientsArray.push(currentMealRecipe[`strIngredient${i}`]);
+      }
+      if (currentMealRecipe[`strIngredient${i}`]) {
+        measureArray.push(currentMealRecipe[`strMeasure${i}`]);
       }
     }
   }
@@ -66,6 +73,8 @@ function FoodDetails() {
                     data-testid={ `${index}-ingredient-name-and-measure` }
                   >
                     {ingredient}
+                    {' - '}
+                    {measureArray[index]}
                   </li>
                 ))
               }
@@ -74,12 +83,11 @@ function FoodDetails() {
           <p data-testid="instructions">{currentMealRecipe.strInstructions}</p>
           <iframe
             data-testid="video"
-            id="player"
-            type="text/html"
-            width="640"
-            height="360"
+            width="1088"
+            height="612"
             src={ currentMealRecipe.strYoutube }
-            title={ currentMealRecipe.strMeal }
+            title="YouTube video player"
+            frameBorder="0"
             allow="accelerometer;
             autoplay;
             clipboard-write;
@@ -90,25 +98,27 @@ function FoodDetails() {
           />
           <div>
             {drinksRecomendation && drinksRecomendation.map((drink, index) => (
-              <Link
-                key={ drink.idDrink }
-                to={ `/bebidas/${drink.idDrink}` }
-              >
-                <article
-                  data-testid={ `${index}-recomendation-card` }
+              index < RECOMENDATION_CARD_SIZE && (
+                <Link
+                  key={ drink.idDrink }
+                  to={ `/bebidas/${drink.idDrink}` }
                 >
-                  <h1
-                    data-testid={ `${index}-card-name` }
+                  <article
+                    data-testid={ `${index}-recomendation-card` }
                   >
-                    { drink.strDrink }
-                  </h1>
-                  <img
-                    src={ drink.strDrinkThumb }
-                    alt={ drink.strDrink }
-                    data-testid={ `${index}-card-img` }
-                  />
-                </article>
-              </Link>
+                    <h1
+                      data-testid={ `${index}-card-name` }
+                    >
+                      { drink.strDrink }
+                    </h1>
+                    <img
+                      src={ drink.strDrinkThumb }
+                      alt={ drink.strDrink }
+                      data-testid={ `${index}-card-img` }
+                    />
+                  </article>
+                </Link>
+              )
             ))}
           </div>
           <button
