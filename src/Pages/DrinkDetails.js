@@ -1,11 +1,13 @@
-import React, { useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import fetchDrinkRecipe from '../services/fetchDrinkRecipes';
 import AppContext from '../context/AppContext';
+import fetchMealsDefault from '../services/fetchMealsDefault';
 
 function DrinkDetails() {
   const { slug } = useParams();
   const { currentDrinkRecipe, setCurrentDrinkRecipe } = useContext(AppContext);
+  const [mealsRecomendation, setMealsRecomendation] = useState([]);
   const ingredientsArray = [];
   const MAX_INGREDIENT_SIZE = 20;
   useEffect(() => {
@@ -13,7 +15,13 @@ function DrinkDetails() {
       const recipe = await fetchDrinkRecipe(slug);
       setCurrentDrinkRecipe(recipe);
     }
+    async function getDefaultRecomendations() {
+      const defaultRecomendation = await fetchMealsDefault();
+      setMealsRecomendation(defaultRecomendation);
+      console.log(defaultRecomendation);
+    }
     getRecipe();
+    getDefaultRecomendations();
   }, [setCurrentDrinkRecipe, slug]);
 
   if (currentDrinkRecipe) {
@@ -64,6 +72,29 @@ function DrinkDetails() {
             </ul>
           </div>
           <p data-testid="instructions">{currentDrinkRecipe.strInstructions}</p>
+          <div>
+            {mealsRecomendation && mealsRecomendation.map((drink, index) => (
+              <Link
+                key={ drink.idMeal }
+                to={ `/bebidas/${drink.idMeal}` }
+              >
+                <article
+                  data-testid={ `${index}-recomendation-card` }
+                >
+                  <h1
+                    data-testid={ `${index}-card-name` }
+                  >
+                    { drink.strMeal }
+                  </h1>
+                  <img
+                    src={ drink.strMealThumb }
+                    alt={ drink.strMeal }
+                    data-testid={ `${index}-card-img` }
+                  />
+                </article>
+              </Link>
+            ))}
+          </div>
           <button
             data-testid="start-recipe-btn"
             type="button"
