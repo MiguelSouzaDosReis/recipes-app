@@ -3,10 +3,13 @@ import { useParams, Link } from 'react-router-dom';
 import fetchFoodRecipe from '../services/fetchFoodRecipes';
 import fetchDrinksDefault from '../services/fetchDrinksDefault';
 import AppContext from '../context/AppContext';
+import CarouselsContainer, { Card, Container } from './style/detailsStyle';
+import renderRecomendation from '../helpers/renderRecomendation';
 
 function FoodDetails() {
   const { slug } = useParams();
   const { currentMealRecipe, setCurrentMealRecipe } = useContext(AppContext);
+  const [countNextButton, setCountNextButton] = useState(0);
   const [drinksRecomendation, setDrinksRecomendation] = useState([]);
   const ingredientsArray = [];
   const measureArray = [];
@@ -96,31 +99,54 @@ function FoodDetails() {
             picture-in-picture"
             allowFullScreen
           />
-          <div>
-            {drinksRecomendation && drinksRecomendation.map((drink, index) => (
-              index < RECOMENDATION_CARD_SIZE && (
-                <Link
-                  key={ drink.idDrink }
-                  to={ `/bebidas/${drink.idDrink}` }
-                >
-                  <article
-                    data-testid={ `${index}-recomendation-card` }
-                  >
-                    <h1
-                      data-testid={ `${index}-card-name` }
+          <Container>
+            <button
+              type="button"
+              onClick={
+                () => renderRecomendation('prev', setCountNextButton, countNextButton)
+              }
+            >
+              Prev
+            </button>
+            <CarouselsContainer>
+              {drinksRecomendation && drinksRecomendation.map((drink, index) => (
+                index < RECOMENDATION_CARD_SIZE && (
+                  <div>
+                    <Link
+                      key={ drink.idDrink }
+                      to={ `/bebidas/${drink.idDrink}` }
+                      hidden={
+                        !(index === countNextButton || index === countNextButton + 1)
+                      }
                     >
-                      { drink.strDrink }
-                    </h1>
-                    <img
-                      src={ drink.strDrinkThumb }
-                      alt={ drink.strDrink }
-                      data-testid={ `${index}-card-img` }
-                    />
-                  </article>
-                </Link>
-              )
-            ))}
-          </div>
+                      <Card
+                        data-testid={ `${index}-recomendation-card` }
+                      >
+                        <h1
+                          data-testid={ `${index}-recomendation-title` }
+                        >
+                          { drink.strDrink }
+                        </h1>
+                        <img
+                          src={ drink.strDrinkThumb }
+                          alt={ drink.strDrink }
+                          data-testid={ `${index}-card-img` }
+                        />
+                      </Card>
+                    </Link>
+                  </div>
+                )
+              ))}
+            </CarouselsContainer>
+            <button
+              type="button"
+              onClick={
+                () => renderRecomendation('next', setCountNextButton, countNextButton)
+              }
+            >
+              Next
+            </button>
+          </Container>
           <button
             data-testid="start-recipe-btn"
             type="button"
