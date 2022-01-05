@@ -3,6 +3,15 @@ import { useParams, Link } from 'react-router-dom';
 import fetchFoodRecipe from '../services/fetchFoodRecipes';
 import fetchDrinksDefault from '../services/fetchDrinksDefault';
 import AppContext from '../context/AppContext';
+import { setMealsInProgress } from '../services/setRecipeInProgress';
+
+const inProgressRecipes = () => (localStorage
+  .getItem('inProgressRecipes') !== null ? JSON
+    .parse(localStorage.getItem('inProgressRecipes')) : { id: '' });
+
+const doneRecipes = () => (localStorage
+  .getItem('doneRecipes') !== null ? JSON
+    .parse(localStorage.getItem('doneRecipes')) : [{ id: '' }]);
 
 function FoodDetails() {
   const { slug } = useParams();
@@ -12,6 +21,7 @@ function FoodDetails() {
   const measureArray = [];
   const MAX_INGREDIENT_SIZE = 20;
   const RECOMENDATION_CARD_SIZE = 6;
+
   useEffect(() => {
     async function getRecipe() {
       const recipe = await fetchFoodRecipe(slug);
@@ -27,7 +37,6 @@ function FoodDetails() {
     getRecipe();
     getDefaultRecomendations();
   }, [setCurrentMealRecipe, slug]);
-  console.log(currentMealRecipe);
   if (currentMealRecipe) {
     for (let i = 1; i <= MAX_INGREDIENT_SIZE; i += 1) {
       if (currentMealRecipe[`strIngredient${i}`]) {
@@ -38,6 +47,9 @@ function FoodDetails() {
       }
     }
   }
+
+  const isRecipeDone = currentMealRecipe && doneRecipes()
+    .some((recipes) => (recipes.id === currentMealRecipe.idMeal));
 
   return (
     <main>
@@ -121,12 +133,25 @@ function FoodDetails() {
               )
             ))}
           </div>
-          <button
-            data-testid="start-recipe-btn"
-            type="button"
+
+          <Link
+            to={ `/comidas/${currentMealRecipe.idMeal}/in-progress` }
           >
-            iniciar receita
-          </button>
+            <button
+              data-testid="start-recipe-btn"
+              type="button"
+              style={ {
+                bottom: 0,
+                position: 'fixed',
+                display: isRecipeDone ? 'none' : 'block',
+              } }
+              onClick={ () => setMealsInProgress(currentMealRecipe) }
+            >
+              {inProgressRecipes().id === currentMealRecipe.idMeal ? (
+                'Continuar Receita'
+              ) : ('Iniciar Receita')}
+            </button>
+          </Link>
         </article>
       )}
     </main>

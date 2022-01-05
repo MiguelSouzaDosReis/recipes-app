@@ -3,6 +3,15 @@ import { useParams, Link } from 'react-router-dom';
 import fetchDrinkRecipe from '../services/fetchDrinkRecipes';
 import AppContext from '../context/AppContext';
 import fetchMealsDefault from '../services/fetchMealsDefault';
+import { setDrinkInProgress } from '../services/setRecipeInProgress';
+
+const inProgressRecipes = () => (localStorage
+  .getItem('inProgressRecipes') !== null ? JSON
+    .parse(localStorage.getItem('inProgressRecipes')) : { id: '' });
+
+const doneRecipes = () => (localStorage
+  .getItem('doneRecipes') !== null ? JSON
+    .parse(localStorage.getItem('doneRecipes')) : [{ id: '' }]);
 
 function DrinkDetails() {
   const { slug } = useParams();
@@ -12,6 +21,7 @@ function DrinkDetails() {
   const measureArray = [];
   const MAX_INGREDIENT_SIZE = 15;
   const RECOMENDATION_CARD_SIZE = 6;
+
   useEffect(() => {
     async function getRecipe() {
       const recipe = await fetchDrinkRecipe(slug);
@@ -20,7 +30,6 @@ function DrinkDetails() {
     async function getDefaultRecomendations() {
       const defaultRecomendation = await fetchMealsDefault();
       setMealsRecomendation(defaultRecomendation);
-      console.log(defaultRecomendation);
     }
     getRecipe();
     getDefaultRecomendations();
@@ -36,7 +45,10 @@ function DrinkDetails() {
       }
     }
   }
-  console.log(currentDrinkRecipe);
+
+  const isRecipeDone = currentDrinkRecipe && doneRecipes()
+    .some((recipes) => (recipes.id === currentDrinkRecipe.idDrink));
+
   return (
     <main>
       {currentDrinkRecipe && (
@@ -105,12 +117,23 @@ function DrinkDetails() {
               )
             ))}
           </div>
-          <button
-            data-testid="start-recipe-btn"
-            type="button"
+          <Link
+            to={ `/bebidas/${currentDrinkRecipe.idDrink}/in-progress` }
           >
-            iniciar receita
-          </button>
+            <button
+              data-testid="start-recipe-btn"
+              type="button"
+              style={ {
+                bottom: 0,
+                position: 'fixed',
+                display: isRecipeDone ? 'none' : 'block' } }
+              onClick={ () => setDrinkInProgress(currentDrinkRecipe) }
+            >
+              {inProgressRecipes().id === currentDrinkRecipe.idDrink ? (
+                'Continuar Receita'
+              ) : ('Iniciar Receita')}
+            </button>
+          </Link>
         </article>
       )}
     </main>
