@@ -4,6 +4,8 @@ import fetchDrinkRecipe from '../services/fetchDrinkRecipes';
 import AppContext from '../context/AppContext';
 import fetchMealsDefault from '../services/fetchMealsDefault';
 import { setDrinkInProgress } from '../services/setRecipeInProgress';
+import CarouselsContainer, { Card, Container } from './style/detailsStyle';
+import renderRecomendation from '../helpers/renderRecomendation';
 
 const inProgressRecipes = () => (localStorage
   .getItem('inProgressRecipes') !== null ? JSON
@@ -17,6 +19,7 @@ function DrinkDetails() {
   const { slug } = useParams();
   const { currentDrinkRecipe, setCurrentDrinkRecipe } = useContext(AppContext);
   const [mealsRecomendation, setMealsRecomendation] = useState([]);
+  const [countNextButton, setCountNextButton] = useState(0);
   const ingredientsArray = [];
   const measureArray = [];
   const MAX_INGREDIENT_SIZE = 15;
@@ -92,31 +95,52 @@ function DrinkDetails() {
             </ul>
           </div>
           <p data-testid="instructions">{currentDrinkRecipe.strInstructions}</p>
-          <div>
-            {mealsRecomendation && mealsRecomendation.map((meal, index) => (
-              index < RECOMENDATION_CARD_SIZE && (
-                <Link
-                  key={ meal.idMeal }
-                  to={ `/comidas/${meal.idMeal}` }
-                >
-                  <article
-                    data-testid={ `${index}-recomendation-card` }
+          <Container>
+            <button
+              type="button"
+              onClick={
+                () => renderRecomendation('prev', setCountNextButton, countNextButton)
+              }
+            >
+              Prev
+            </button>
+            <CarouselsContainer>
+              {mealsRecomendation && mealsRecomendation.map((meal, index) => (
+                index < RECOMENDATION_CARD_SIZE && (
+                  <Link
+                    key={ meal.idMeal }
+                    to={ `/comidas/${meal.idMeal}` }
+                    hidden={
+                      !(index === countNextButton || index === countNextButton + 1)
+                    }
                   >
-                    <h1
-                      data-testid={ `${index}-card-name` }
+                    <Card
+                      data-testid={ `${index}-recomendation-card` }
                     >
-                      { meal.strMeal }
-                    </h1>
-                    <img
-                      src={ meal.strMealThumb }
-                      alt={ meal.strMeal }
-                      data-testid={ `${index}-card-img` }
-                    />
-                  </article>
-                </Link>
-              )
-            ))}
-          </div>
+                      <h1
+                        data-testid={ `${index}-recomendation-title` }
+                      >
+                        { meal.strMeal }
+                      </h1>
+                      <img
+                        src={ meal.strMealThumb }
+                        alt={ meal.strMeal }
+                        data-testid={ `${index}-card-img` }
+                      />
+                    </Card>
+                  </Link>
+                )
+              ))}
+            </CarouselsContainer>
+            <button
+              type="button"
+              onClick={
+                () => renderRecomendation('next', setCountNextButton, countNextButton)
+              }
+            >
+              Next
+            </button>
+          </Container>
           <Link
             to={ `/bebidas/${currentDrinkRecipe.idDrink}/in-progress` }
           >
