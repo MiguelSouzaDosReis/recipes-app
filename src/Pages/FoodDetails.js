@@ -6,7 +6,7 @@ import AppContext from '../context/AppContext';
 import { setMealsInProgress } from '../services/setRecipeInProgress';
 import CarouselsContainer, { Card, Container } from './style/detailsStyle';
 import renderRecomendation from '../helpers/renderRecomendation';
-import isRecipeDone from '../helpers/isRecipeDone';
+import isRecipeMealDone from '../helpers/isRecipeMealDone';
 
 const inProgressRecipes = () => (localStorage
   .getItem('inProgressRecipes') !== null ? JSON
@@ -41,6 +41,7 @@ function FoodDetails() {
     getRecipe();
     getDefaultRecomendations();
   }, [setCurrentMealRecipe, slug]);
+
   if (currentMealRecipe) {
     for (let i = 1; i <= MAX_INGREDIENT_SIZE; i += 1) {
       if (currentMealRecipe[`strIngredient${i}`]) {
@@ -52,7 +53,7 @@ function FoodDetails() {
     }
   }
 
-  const finalizedRecipe = isRecipeDone(currentMealRecipe, doneRecipes);
+  const finalizedRecipe = isRecipeMealDone(currentMealRecipe, doneRecipes);
 
   return (
     <main>
@@ -65,6 +66,7 @@ function FoodDetails() {
             data-testid="recipe-photo"
           />
           <h2 data-testid="recipe-title">{currentMealRecipe.strMeal}</h2>
+          <h4 data-testid="recipe-category">{currentMealRecipe.strCategory}</h4>
           <button
             data-testid="share-btn"
             type="button"
@@ -78,7 +80,6 @@ function FoodDetails() {
           >
             Favoritar
           </button>
-          <p data-testid="recipe-category">{currentMealRecipe.strCategory}</p>
           <div>
             <ul>
               {
