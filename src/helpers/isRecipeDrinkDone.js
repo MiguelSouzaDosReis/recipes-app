@@ -1,5 +1,6 @@
 function isRecipeDrinkDone(currentDrinkRecipe, doneRecipes) {
-  return doneRecipes().some((recipes) => recipes.id === currentDrinkRecipe.idDrink);
+  return currentDrinkRecipe && doneRecipes()
+    .some((recipes) => recipes.id === currentDrinkRecipe.idDrink);
 }
 
 export default isRecipeDrinkDone;
