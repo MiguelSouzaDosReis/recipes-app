@@ -7,6 +7,7 @@ import { setMealsInProgress } from '../services/setRecipeInProgress';
 import CarouselsContainer, { Card, Container } from './style/detailsStyle';
 import renderRecomendation from '../helpers/renderRecomendation';
 import isRecipeMealDone from '../helpers/isRecipeMealDone';
+import FoodRecipeCard from '../Components/FoodRecipeCard';
 
 const inProgressRecipes = () => (localStorage
   .getItem('inProgressRecipes') !== null ? JSON
@@ -18,7 +19,8 @@ const doneRecipes = () => (localStorage
 
 function FoodDetails() {
   const { slug } = useParams();
-  const { currentMealRecipe, setCurrentMealRecipe } = useContext(AppContext);
+  const { currentMealRecipe, setCurrentMealRecipe,
+    setingredientsAndMeasureInContext } = useContext(AppContext);
   const [drinksRecomendation, setDrinksRecomendation] = useState([]);
   const [countNextButton, setCountNextButton] = useState(0);
   const ingredientsArray = [];
@@ -53,64 +55,26 @@ function FoodDetails() {
     }
   }
 
-  const finalizedRecipe = isRecipeMealDone(currentMealRecipe, doneRecipes);
+  localStorage
+    .setItem('ingredientsAndMeasureArray', JSON
+      .stringify({ ingredientsArray, measureArray }));
 
+  /* useEffect(() => {
+    const updateIngredientsAndMeasures = () => {
+      setingredientsAndMeasureInContext({ ingredientsArray, measureArray });
+    };
+    updateIngredientsAndMeasures();
+  }, []); */
+
+  const finalizedRecipe = isRecipeMealDone(currentMealRecipe, doneRecipes);
   return (
     <main>
       {currentMealRecipe && (
         <article>
-          <img
-            width="300px"
-            src={ currentMealRecipe.strMealThumb }
-            alt={ currentMealRecipe.strMeal }
-            data-testid="recipe-photo"
-          />
-          <h2 data-testid="recipe-title">{currentMealRecipe.strMeal}</h2>
-          <h4 data-testid="recipe-category">{currentMealRecipe.strCategory}</h4>
-          <button
-            data-testid="share-btn"
-            type="button"
-          >
-            Compartilhar
-          </button>
-
-          <button
-            data-testid="favorite-btn"
-            type="button"
-          >
-            Favoritar
-          </button>
-          <div>
-            <ul>
-              {
-                ingredientsArray.map((ingredient, index) => (
-                  <li
-                    key={ index }
-                    data-testid={ `${index}-ingredient-name-and-measure` }
-                  >
-                    {ingredient}
-                    {' - '}
-                    {measureArray[index]}
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-          <p data-testid="instructions">{currentMealRecipe.strInstructions}</p>
-          <iframe
-            data-testid="video"
-            width="1088"
-            height="612"
-            src={ currentMealRecipe.strYoutube }
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer;
-            autoplay;
-            clipboard-write;
-            encrypted-media;
-            gyroscope;
-            picture-in-picture"
-            allowFullScreen
+          <FoodRecipeCard
+            currentMealRecipe={ currentMealRecipe }
+            ingredientsArray={ ingredientsArray }
+            measureArray={ measureArray }
           />
           <Container>
             <button

@@ -7,6 +7,7 @@ import { setDrinkInProgress } from '../services/setRecipeInProgress';
 import CarouselsContainer, { Card, Container } from './style/detailsStyle';
 import renderRecomendation from '../helpers/renderRecomendation';
 import isRecipeDrinkDone from '../helpers/isRecipeDrinkDone';
+import DrinkRecipeCard from '../Components/DrinkRecipeCard';
 
 const inProgressRecipes = () => (localStorage
   .getItem('inProgressRecipes') !== null ? JSON
@@ -56,45 +57,11 @@ function DrinkDetails() {
     <main>
       {currentDrinkRecipe && (
         <article>
-          <img
-            width="300px"
-            src={ currentDrinkRecipe.strDrinkThumb }
-            alt={ currentDrinkRecipe.strDrink }
-            data-testid="recipe-photo"
+          <DrinkRecipeCard
+            currentRecipe={ currentDrinkRecipe }
+            ingredientsArray={ ingredientsArray }
+            measureArray={ measureArray }
           />
-          <h2 data-testid="recipe-title">{currentDrinkRecipe.strDrink}</h2>
-          <h4 data-testid="recipe-category">{currentDrinkRecipe.strAlcoholic}</h4>
-          <button
-            data-testid="share-btn"
-            type="button"
-          >
-            Compartilhar
-          </button>
-
-          <button
-            data-testid="favorite-btn"
-            type="button"
-          >
-            Favoritar
-          </button>
-          <p data-testid="recipe-category">{currentDrinkRecipe.strCategory}</p>
-          <div>
-            <ul>
-              {
-                ingredientsArray.map((ingredient, index) => (
-                  <li
-                    key={ index }
-                    data-testid={ `${index}-ingredient-name-and-measure` }
-                  >
-                    {ingredient}
-                    {' - '}
-                    {measureArray[index]}
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-          <p data-testid="instructions">{currentDrinkRecipe.strInstructions}</p>
           <Container>
             <button
               type="button"
