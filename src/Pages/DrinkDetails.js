@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import fetchDrinkRecipe from '../services/fetchDrinkRecipes';
-import AppContext from '../context/AppContext';
 import fetchMealsDefault from '../services/fetchMealsDefault';
+import AppContext from '../context/AppContext';
 import { setDrinkInProgress } from '../services/setRecipeInProgress';
 import CarouselsContainer, { Card, Container } from './style/detailsStyle';
 import renderRecomendation from '../helpers/renderRecomendation';
