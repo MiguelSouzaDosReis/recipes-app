@@ -4,6 +4,9 @@ import fetchFoodRecipe from '../services/fetchFoodRecipes';
 import fetchDrinksDefault from '../services/fetchDrinksDefault';
 import AppContext from '../context/AppContext';
 import { setMealsInProgress } from '../services/setRecipeInProgress';
+import CarouselsContainer, { Card, Container } from './style/detailsStyle';
+import renderRecomendation from '../helpers/renderRecomendation';
+import isRecipeDone from '../helpers/isRecipeDone';
 
 const inProgressRecipes = () => (localStorage
   .getItem('inProgressRecipes') !== null ? JSON
@@ -17,6 +20,7 @@ function FoodDetails() {
   const { slug } = useParams();
   const { currentMealRecipe, setCurrentMealRecipe } = useContext(AppContext);
   const [drinksRecomendation, setDrinksRecomendation] = useState([]);
+  const [countNextButton, setCountNextButton] = useState(0);
   const ingredientsArray = [];
   const measureArray = [];
   const MAX_INGREDIENT_SIZE = 20;
@@ -48,8 +52,7 @@ function FoodDetails() {
     }
   }
 
-  const isRecipeDone = currentMealRecipe && doneRecipes()
-    .some((recipes) => (recipes.id === currentMealRecipe.idMeal));
+  const finalizedRecipe = isRecipeDone(currentMealRecipe, doneRecipes);
 
   return (
     <main>
@@ -108,32 +111,52 @@ function FoodDetails() {
             picture-in-picture"
             allowFullScreen
           />
-          <div>
-            {drinksRecomendation && drinksRecomendation.map((drink, index) => (
-              index < RECOMENDATION_CARD_SIZE && (
-                <Link
-                  key={ drink.idDrink }
-                  to={ `/bebidas/${drink.idDrink}` }
-                >
-                  <article
-                    data-testid={ `${index}-recomendation-card` }
+          <Container>
+            <button
+              type="button"
+              onClick={
+                () => renderRecomendation('prev', setCountNextButton, countNextButton)
+              }
+            >
+              Prev
+            </button>
+            <CarouselsContainer>
+              {drinksRecomendation && drinksRecomendation.map((drink, index) => (
+                index < RECOMENDATION_CARD_SIZE && (
+                  <Link
+                    key={ drink.idDrink }
+                    to={ `/bebidas/${drink.idDrink}` }
+                    hidden={
+                      !(index === countNextButton || index === countNextButton + 1)
+                    }
                   >
-                    <h1
-                      data-testid={ `${index}-card-name` }
+                    <Card
+                      data-testid={ `${index}-recomendation-card` }
                     >
-                      { drink.strDrink }
-                    </h1>
-                    <img
-                      src={ drink.strDrinkThumb }
-                      alt={ drink.strDrink }
-                      data-testid={ `${index}-card-img` }
-                    />
-                  </article>
-                </Link>
-              )
-            ))}
-          </div>
-
+                      <h1
+                        data-testid={ `${index}-recomendation-title` }
+                      >
+                        { drink.strDrink }
+                      </h1>
+                      <img
+                        src={ drink.strDrinkThumb }
+                        alt={ drink.strDrink }
+                        data-testid={ `${index}-card-img` }
+                      />
+                    </Card>
+                  </Link>
+                )
+              ))}
+            </CarouselsContainer>
+            <button
+              type="button"
+              onClick={
+                () => renderRecomendation('next', setCountNextButton, countNextButton)
+              }
+            >
+              Next
+            </button>
+          </Container>
           <Link
             to={ `/comidas/${currentMealRecipe.idMeal}/in-progress` }
           >
@@ -143,7 +166,7 @@ function FoodDetails() {
               style={ {
                 bottom: 0,
                 position: 'fixed',
-                display: isRecipeDone ? 'none' : 'block',
+                display: finalizedRecipe ? 'none' : 'block',
               } }
               onClick={ () => setMealsInProgress(currentMealRecipe) }
             >

@@ -6,6 +6,7 @@ import fetchMealsDefault from '../services/fetchMealsDefault';
 import { setDrinkInProgress } from '../services/setRecipeInProgress';
 import CarouselsContainer, { Card, Container } from './style/detailsStyle';
 import renderRecomendation from '../helpers/renderRecomendation';
+import isRecipeDone from '../helpers/isRecipeDone';
 
 const inProgressRecipes = () => (localStorage
   .getItem('inProgressRecipes') !== null ? JSON
@@ -49,8 +50,7 @@ function DrinkDetails() {
     }
   }
 
-  const isRecipeDone = currentDrinkRecipe && doneRecipes()
-    .some((recipes) => (recipes.id === currentDrinkRecipe.idDrink));
+  const finalizedRecipe = isRecipeDone(currentDrinkRecipe, doneRecipes);
 
   return (
     <main>
@@ -150,7 +150,7 @@ function DrinkDetails() {
               style={ {
                 bottom: 0,
                 position: 'fixed',
-                display: isRecipeDone ? 'none' : 'block' } }
+                display: finalizedRecipe ? 'none' : 'block' } }
               onClick={ () => setDrinkInProgress(currentDrinkRecipe) }
             >
               {inProgressRecipes().id === currentDrinkRecipe.idDrink ? (
