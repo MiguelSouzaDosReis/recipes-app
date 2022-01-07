@@ -11,7 +11,7 @@ import FoodRecipeCard from '../Components/FoodRecipeCard';
 
 const inProgressRecipes = () => (localStorage
   .getItem('inProgressRecipes') !== null ? JSON
-    .parse(localStorage.getItem('inProgressRecipes')) : { id: '' });
+    .parse(localStorage.getItem('inProgressRecipes')) : { meals: { } });
 
 const doneRecipes = () => (localStorage
   .getItem('doneRecipes') !== null ? JSON
@@ -57,13 +57,6 @@ function FoodDetails() {
   localStorage
     .setItem('ingredientsAndMeasureArray', JSON
       .stringify({ ingredientsArray, measureArray }));
-
-  /* useEffect(() => {
-    const updateIngredientsAndMeasures = () => {
-      setingredientsAndMeasureInContext({ ingredientsArray, measureArray });
-    };
-    updateIngredientsAndMeasures();
-  }, []); */
 
   const finalizedRecipe = isRecipeMealDone(currentMealRecipe, doneRecipes);
   return (
@@ -132,9 +125,11 @@ function FoodDetails() {
                 position: 'fixed',
                 display: finalizedRecipe ? 'none' : 'block',
               } }
-              onClick={ () => setMealsInProgress(currentMealRecipe) }
+              onClick={ () => setMealsInProgress({
+                id: currentMealRecipe.idMeal, ingredientsArray,
+              }) }
             >
-              {inProgressRecipes().id === currentMealRecipe.idMeal ? (
+              {inProgressRecipes().meals[currentMealRecipe.idMeal] ? (
                 'Continuar Receita'
               ) : ('Iniciar Receita')}
             </button>

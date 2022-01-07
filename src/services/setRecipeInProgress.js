@@ -1,33 +1,27 @@
-export const setMealsInProgress = (meal) => {
+export const setMealsInProgress = ({ id, ingredientsArray }) => {
   const newRecipe = {
-    id: meal.idMeal,
-    type: 'meal',
-    area: meal.strArea,
-    category: meal.strCategory,
-    name: meal.strMeal,
-    image: meal.strMealThumb,
-    doneDate: '',
-    tags: '',
+    [id]: ingredientsArray,
   };
-  const oldStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  const oldStorage = localStorage
+    .getItem('inProgressRecipes') !== null ? JSON
+      .parse(localStorage.getItem('inProgressRecipes')) : { meals: {} };
   localStorage
-    .setItem('inProgressRecipes', JSON.stringify({ ...oldStorage, meals: newRecipe }));
+    .setItem('inProgressRecipes', JSON.stringify({
+      ...oldStorage,
+      meals: { ...oldStorage.meals, ...newRecipe } }));
 };
 
-export const setDrinkInProgress = (drink) => {
+export const setDrinkInProgress = ({ id, ingredientsArray }) => {
   const newRecipeDrink = {
-    id: drink.idDrink,
-    type: 'drink',
-    area: drink.strArea,
-    category: drink.strCategory,
-    alcoholicOrNot: drink.strAlcoholic,
-    name: drink.strDrink,
-    image: drink.strDrinkThumb,
-    doneDate: '',
-    tags: '',
+    [id]: ingredientsArray,
   };
-  const oldStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  const oldStorage = localStorage
+    .getItem('inProgressRecipes') !== null ? JSON
+      .parse(localStorage.getItem('inProgressRecipes')) : { cocktatils: {} };
   localStorage
     .setItem('inProgressRecipes', JSON
-      .stringify({ ...oldStorage, cocktails: newRecipeDrink }));
+      .stringify({
+        ...oldStorage,
+        cocktails: { ...oldStorage.cocktatils, ...newRecipeDrink },
+      }));
 };

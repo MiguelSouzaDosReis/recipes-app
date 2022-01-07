@@ -11,7 +11,7 @@ import DrinkRecipeCard from '../Components/DrinkRecipeCard';
 
 const inProgressRecipes = () => (localStorage
   .getItem('inProgressRecipes') !== null ? JSON
-    .parse(localStorage.getItem('inProgressRecipes')) : { id: '' });
+    .parse(localStorage.getItem('inProgressRecipes')) : { cocktails: { } });
 
 const doneRecipes = () => (localStorage
   .getItem('doneRecipes') !== null ? JSON
@@ -121,7 +121,7 @@ function DrinkDetails() {
               } }
               onClick={ () => setDrinkInProgress(currentDrinkRecipe) }
             >
-              {inProgressRecipes().id === currentDrinkRecipe.idDrink ? (
+              {inProgressRecipes().cocktails[currentDrinkRecipe.idDrink] ? (
                 'Continuar Receita'
               ) : ('Iniciar Receita')}
             </button>
