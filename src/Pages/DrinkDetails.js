@@ -55,7 +55,6 @@ function DrinkDetails() {
       .stringify({ ingredientsArray, measureArray }));
 
   const finalizedRecipe = isRecipeDrinkDone(currentDrinkRecipe, doneRecipes);
-  console.log(finalizedRecipe);
   return (
     <main>
       {currentDrinkRecipe && (
@@ -123,7 +122,7 @@ function DrinkDetails() {
                 display: finalizedRecipe ? 'none' : 'block',
               } }
               onClick={ () => setDrinkInProgress({
-                id: currentDrinkRecipe.idDrink, ingredientsArray,
+                id: currentDrinkRecipe.idDrink, ingredientsArray: [],
               }) }
             >
               {inProgressRecipes().cocktails[currentDrinkRecipe.idDrink] ? (

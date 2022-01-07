@@ -126,7 +126,7 @@ function FoodDetails() {
                 display: finalizedRecipe ? 'none' : 'block',
               } }
               onClick={ () => setMealsInProgress({
-                id: currentMealRecipe.idMeal, ingredientsArray,
+                id: currentMealRecipe.idMeal, ingredientsArray: [],
               }) }
             >
               {inProgressRecipes().meals[currentMealRecipe.idMeal] ? (
