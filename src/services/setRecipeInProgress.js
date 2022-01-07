@@ -17,11 +17,11 @@ export const setDrinkInProgress = ({ id, ingredientsArray }) => {
   };
   const oldStorage = localStorage
     .getItem('inProgressRecipes') !== null ? JSON
-      .parse(localStorage.getItem('inProgressRecipes')) : { cocktatils: {} };
+      .parse(localStorage.getItem('inProgressRecipes')) : { cocktails: {} };
   localStorage
     .setItem('inProgressRecipes', JSON
       .stringify({
         ...oldStorage,
-        cocktails: { ...oldStorage.cocktatils, ...newRecipeDrink },
+        cocktails: { ...oldStorage.cocktails, ...newRecipeDrink },
       }));
 };

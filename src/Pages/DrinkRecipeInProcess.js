@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 import fetchDrinkRecipes from '../services/fetchDrinkRecipes';
 import { setDrinkInProgress } from '../services/setRecipeInProgress';
+import FavoriteButton from '../Components/FavoriteButton';
+import ShareButton from '../Components/ShareButton';
+import saveFavToLocalStorage from '../helpers/saveRecipeToLocalStorage';
 
 const changeIngredientStyle = (ingredientStyle, name) => {
   if (ingredientStyle.includes(name)) {
@@ -28,9 +31,22 @@ function DrinkRecipeInProgress() {
     const { cocktails } = JSON.parse(localStorage.getItem('inProgressRecipes'));
     return drink in cocktails ? cocktails[drink] : [];
   });
+  const [isFav, setIsFav] = useState(false);
+
   const MAX_INGREDIENT_SIZE = 15;
   const ingredientsArray = [];
   const measureArray = [];
+
+  useEffect(() => {
+    if (localStorage.getItem('favoriteRecipes') !== null) {
+      const recipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      recipes.forEach((recipe) => {
+        if (recipe.id === currentDrinkRecipe.idDrink) {
+          setIsFav(true);
+        }
+      });
+    }
+  }, [currentDrinkRecipe]);
 
   useEffect(() => {
     async function getRecipe() {
@@ -56,6 +72,10 @@ function DrinkRecipeInProgress() {
       id: currentDrinkRecipe.idDrink, ingredientsArray: ingredientStyle });
   }, [ingredientStyle, currentDrinkRecipe.idDrink]);
 
+  const handleFavClick = () => {
+    setIsFav(!isFav);
+    saveFavToLocalStorage(currentDrinkRecipe, 'bebida');
+  };
   return (
     <article>
       <img
@@ -64,18 +84,12 @@ function DrinkRecipeInProgress() {
         alt={ strDrink }
       />
       <h1 data-testid="recipe-title">{strDrink}</h1>
-      <button
-        type="button"
-        data-testid="share-btn"
-      >
-        Compartilhar
-      </button>
-      <button
-        type="button"
-        data-testid="favorite-btn"
-      >
-        Favoritar
-      </button>
+      <ShareButton />
+      <FavoriteButton
+        handleFavClick={ handleFavClick }
+        isFav={ isFav }
+        setIsFav={ setIsFav }
+      />
       <p data-testid="recipe-category">{strCategory}</p>
       <ul>
         {ingredientsArray.map((element, index) => (

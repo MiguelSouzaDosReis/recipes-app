@@ -1,13 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import saveFavToLocalStorage from '../helpers/saveRecipeToLocalStorage';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import shareButtonIcon from '../images/shareIcon.svg';
+/* import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg'; */
+// import shareButtonIcon from '../images/shareIcon.svg';
+import ShareButton from './ShareButton';
+import FavoriteButton from './FavoriteButton';
 
-const TIME_TO_HIDE_COPY_MESSAGE = 2000;
+// const TIME_TO_HIDE_COPY_MESSAGE = 2000;
 function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
-  const [clipBoard, setClipBoard] = useState(false);
+  // const [clipBoard, setClipBoard] = useState(false);
   const [isFav, setIsFav] = useState(false);
   useEffect(() => {
     if (localStorage.getItem('favoriteRecipes') !== null) {
@@ -25,7 +27,7 @@ function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
     saveFavToLocalStorage(currentMealRecipe, 'comida');
   };
 
-  async function handleURLCopy() {
+  /* async function handleURLCopy() {
     const currentURL = window.location.href;
     if (navigator.clipboard) {
       return navigator.clipboard.writeText(currentURL);
@@ -44,7 +46,7 @@ function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
       .catch((err) => {
         console.log(err);
       });
-  };
+  }; */
 
   return (
     <>
@@ -56,7 +58,13 @@ function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
       />
       <h2 data-testid="recipe-title">{currentMealRecipe.strMeal}</h2>
       <h4 data-testid="recipe-category">{currentMealRecipe.strCategory}</h4>
-      <button
+      <ShareButton />
+      <FavoriteButton
+        handleFavClick={ handleFavClick }
+        isFav={ isFav }
+        setIsFav={ setIsFav }
+      />
+      {/* <button
         type="button"
         onClick={ handleShareButtonClick }
         data-testid="share-btn"
@@ -65,9 +73,9 @@ function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
           src={ shareButtonIcon }
           alt="Compartilhar"
         />
-      </button>
-      {clipBoard && <p>Link copiado!</p>}
-      <button
+      </button> */}
+      {/* {clipBoard && <p>Link copiado!</p>} */}
+      {/* <button
         type="button"
         onClick={
           () => handleFavClick()
@@ -78,7 +86,7 @@ function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
           src={ isFav ? blackHeartIcon : whiteHeartIcon }
           alt={ isFav ? 'coração preto' : 'coração branco' }
         />
-      </button>
+      </button> */}
       <div>
         <ul>
           {

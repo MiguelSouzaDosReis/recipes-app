@@ -9,9 +9,12 @@ import renderRecomendation from '../helpers/renderRecomendation';
 import isRecipeDrinkDone from '../helpers/isRecipeDrinkDone';
 import DrinkRecipeCard from '../Components/DrinkRecipeCard';
 
-const inProgressRecipes = () => (localStorage
-  .getItem('inProgressRecipes') !== null ? JSON
-    .parse(localStorage.getItem('inProgressRecipes')) : { cocktails: { } });
+const inProgressRecipes = () => {
+  console.log(localStorage.getItem('inProgressRecipes'));
+  if (!localStorage.getItem('inProgressRecipes')) return { cocktails: {} };
+  const { cocktails } = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  return cocktails;
+};
 
 const doneRecipes = () => (localStorage
   .getItem('doneRecipes') !== null ? JSON
@@ -126,9 +129,10 @@ function DrinkDetails() {
                 id: currentDrinkRecipe.idDrink, ingredientsArray: [],
               }) }
             >
-              {inProgressRecipes().cocktails[currentDrinkRecipe.idDrink] ? (
+              {console.log(inProgressRecipes())}
+              {/* {inProgressRecipes().cocktails[currentDrinkRecipe.idDrink] ? (
                 'Continuar Receita'
-              ) : ('Iniciar Receita')}
+              ) : ('Iniciar Receita')} */}
             </button>
           </Link>
         </article>

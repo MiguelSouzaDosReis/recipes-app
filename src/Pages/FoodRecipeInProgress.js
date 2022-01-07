@@ -1,8 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import FavoriteButton from '../Components/FavoriteButton';
+import ShareButton from '../Components/ShareButton';
 import AppContext from '../context/AppContext';
 import fetchFoodRecipe from '../services/fetchFoodRecipes';
 import { setMealsInProgress } from '../services/setRecipeInProgress';
+import saveFavToLocalStorage from '../helpers/saveRecipeToLocalStorage';
 
 const changeIngredientStyle = (ingredientStyle, name) => {
   if (ingredientStyle.includes(name)) {
@@ -28,9 +31,21 @@ function FoodRecipeInProcess() {
     const { meals } = JSON.parse(localStorage.getItem('inProgressRecipes'));
     return meal in meals ? meals[meal] : [];
   });
+  const [isFav, setIsFav] = useState(false);
   const MAX_INGREDIENT_SIZE = 20;
   const ingredientsArray = [];
   const measureArray = [];
+
+  useEffect(() => {
+    if (localStorage.getItem('favoriteRecipes') !== null) {
+      const recipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      recipes.forEach((recipe) => {
+        if (recipe.id === currentMealRecipe.idMeal) {
+          setIsFav(true);
+        }
+      });
+    }
+  }, [currentMealRecipe]);
 
   useEffect(() => {
     async function getRecipe() {
@@ -59,6 +74,10 @@ function FoodRecipeInProcess() {
     }
   }
 
+  const handleFavClick = () => {
+    setIsFav(!isFav);
+    saveFavToLocalStorage(currentMealRecipe, 'comida');
+  };
   return (
     <article>
       <img
@@ -67,18 +86,12 @@ function FoodRecipeInProcess() {
         alt={ strMeal }
       />
       <h1 data-testid="recipe-title">{strMeal}</h1>
-      <button
-        type="button"
-        data-testid="share-btn"
-      >
-        Compartilhar
-      </button>
-      <button
-        type="button"
-        data-testid="favorite-btn"
-      >
-        Favoritar
-      </button>
+      <ShareButton />
+      <FavoriteButton
+        handleFavClick={ handleFavClick }
+        isFav={ isFav }
+        setIsFav={ setIsFav }
+      />
       <p data-testid="recipe-category">{strCategory}</p>
       <ul>
         {ingredientsArray.map((element, index) => (

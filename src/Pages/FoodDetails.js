@@ -9,9 +9,11 @@ import renderRecomendation from '../helpers/renderRecomendation';
 import isRecipeMealDone from '../helpers/isRecipeMealDone';
 import FoodRecipeCard from '../Components/FoodRecipeCard';
 
-const inProgressRecipes = () => (localStorage
-  .getItem('inProgressRecipes') !== null ? JSON
-    .parse(localStorage.getItem('inProgressRecipes')) : { meals: { } });
+const inProgressRecipes = () => {
+  if (!localStorage.getItem('inProgressRecipes')) return { meals: {} };
+  const { meals } = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  return meals;
+};
 
 const doneRecipes = () => (localStorage
   .getItem('doneRecipes') !== null ? JSON
@@ -30,7 +32,6 @@ function FoodDetails() {
   useEffect(() => {
     async function getRecipe() {
       const recipe = await fetchFoodRecipe(slug);
-      console.log(recipe);
       const splitedLink = recipe.strYoutube.split('watch?v=');
       const embedLink = `${splitedLink[0]}embed/${splitedLink[1]}`;
       recipe.strYoutube = embedLink;
@@ -130,6 +131,7 @@ function FoodDetails() {
                 id: currentMealRecipe.idMeal, ingredientsArray: [],
               }) }
             >
+              {console.log(inProgressRecipes().meals)}
               {inProgressRecipes().meals[currentMealRecipe.idMeal] ? (
                 'Continuar Receita'
               ) : ('Iniciar Receita')}
