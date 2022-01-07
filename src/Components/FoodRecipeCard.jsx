@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import saveFavToLocalStorage from '../helpers/saveRecipeToLocalStorage';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import shareButtonIcon from '../images/shareIcon.svg';
 
 function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
   const [clipBoard, setClipBoard] = useState('');
@@ -23,6 +23,16 @@ function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
     setIsFav(!isFav);
     saveFavToLocalStorage(currentMealRecipe, 'comida');
   };
+
+  const copyURL = () => {
+    const el = document.createElement('input');
+    el.value = window.location.href;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    setClipBoard(el.value);
+  };
   return (
     <>
       <img
@@ -33,17 +43,16 @@ function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
       />
       <h2 data-testid="recipe-title">{currentMealRecipe.strMeal}</h2>
       <h4 data-testid="recipe-category">{currentMealRecipe.strCategory}</h4>
-      <CopyToClipboard
-        text={ window.location.href }
-        onCopy={ () => setClipBoard(window.location.href) }
-        data-testid="share-btn"
+      <button
+        type="button"
+        onClick={ copyURL }
       >
-        <button
-          type="button"
-        >
-          Compartilhar
-        </button>
-      </CopyToClipboard>
+        <img
+          data-testid="share-btn"
+          src={ shareButtonIcon }
+          alt="Compartilhar"
+        />
+      </button>
       {clipBoard && <p>Link copiado!</p>}
       <button
         type="button"
