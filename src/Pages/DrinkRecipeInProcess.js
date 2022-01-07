@@ -6,7 +6,15 @@ import fetchDrinkRecipes from '../services/fetchDrinkRecipes';
 function DrinkRecipeInProgress() {
   const { drink } = useParams();
   const { currentDrinkRecipe, setCurrentDrinkRecipe } = useContext(AppContext);
-  const { strDrinkThumb, strDrink, strCategory, strInstructions } = currentDrinkRecipe;
+  const defaultRecipeShape = {
+    strDrinkThumb: '',
+    strDrink: '',
+    strCategory: '',
+    strInstructions: '',
+  };
+  const {
+    strDrinkThumb, strDrink, strCategory, strInstructions,
+  } = currentDrinkRecipe || defaultRecipeShape;
   const [ingredientStyle, setIngredientStyle] = useState([]);
   const MAX_INGREDIENT_SIZE = 15;
   const ingredientsArray = [];
