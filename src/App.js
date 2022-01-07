@@ -49,7 +49,7 @@ function App() {
           <Route exact path="/receitas-favoritas" component={ FavoriteRecipes } />
           <Route
             exact
-            path="/bebidas/:meal/in-progress"
+            path="/bebidas/:drink/in-progress"
             component={ DrinkRecipeInProcess }
           />
           <Route path="/comidas/:meal/in-progress" component={ FoodRecipeInProcess } />

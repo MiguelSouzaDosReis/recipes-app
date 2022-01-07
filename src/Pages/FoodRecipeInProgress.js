@@ -1,13 +1,39 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import AppContext from '../context/AppContext';
+import fetchFoodRecipe from '../services/fetchFoodRecipes';
 
 function FoodRecipeInProcess() {
-  const { currentMealRecipe } = useContext(AppContext);
-  const {
-    ingredientsArray, measureArray,
-  } = JSON.parse(localStorage.getItem('ingredientsAndMeasureArray'));
+  const { meal } = useParams();
+  const { currentMealRecipe, setCurrentMealRecipe } = useContext(AppContext);
   const { strMealThumb, strMeal, strCategory, strInstructions } = currentMealRecipe;
   const [ingredientStyle, setIngredientStyle] = useState([]);
+  const MAX_INGREDIENT_SIZE = 20;
+  const ingredientsArray = [];
+  const measureArray = [];
+
+  useEffect(() => {
+    async function getRecipe() {
+      const recipe = await fetchFoodRecipe(meal);
+      const splitedLink = !!recipe && recipe.strYoutube.split('watch?v=');
+      const embedLink = `${splitedLink[0]}embed/${splitedLink[1]}`;
+      recipe.strYoutube = embedLink;
+      setCurrentMealRecipe(recipe);
+    }
+
+    getRecipe();
+  }, [setCurrentMealRecipe, meal]);
+
+  if (currentMealRecipe) {
+    for (let i = 1; i <= MAX_INGREDIENT_SIZE; i += 1) {
+      if (currentMealRecipe[`strIngredient${i}`]) {
+        ingredientsArray.push(currentMealRecipe[`strIngredient${i}`]);
+      }
+      if (currentMealRecipe[`strIngredient${i}`]) {
+        measureArray.push(currentMealRecipe[`strMeasure${i}`]);
+      }
+    }
+  }
 
   const changeIngredientStyle = (name) => {
     if (ingredientStyle.includes(name)) {
@@ -52,6 +78,7 @@ function FoodRecipeInProcess() {
             key={ index }
             style={ {
               listStyleType: 'none' } }
+            data-testid={ `${index}-ingredient-step` }
           >
             <label
               htmlFor={ element }
@@ -72,7 +99,6 @@ function FoodRecipeInProcess() {
           </li>
         ))}
       </ul>
-      <checkbox />
       <p data-testid="instructions">{strInstructions}</p>
       <button
         type="button"

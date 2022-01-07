@@ -30,6 +30,7 @@ function FoodDetails() {
   useEffect(() => {
     async function getRecipe() {
       const recipe = await fetchFoodRecipe(slug);
+      console.log(recipe);
       const splitedLink = recipe.strYoutube.split('watch?v=');
       const embedLink = `${splitedLink[0]}embed/${splitedLink[1]}`;
       recipe.strYoutube = embedLink;

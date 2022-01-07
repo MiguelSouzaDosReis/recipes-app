@@ -51,8 +51,12 @@ function DrinkDetails() {
     }
   }
 
-  const finalizedRecipe = isRecipeDrinkDone(currentDrinkRecipe, doneRecipes);
+  localStorage
+    .setItem('ingredientsAndMeasureArray', JSON
+      .stringify({ ingredientsArray, measureArray }));
 
+  const finalizedRecipe = isRecipeDrinkDone(currentDrinkRecipe, doneRecipes);
+  console.log(finalizedRecipe);
   return (
     <main>
       {currentDrinkRecipe && (
@@ -112,14 +116,16 @@ function DrinkDetails() {
             to={ `/bebidas/${currentDrinkRecipe.idDrink}/in-progress` }
           >
             <button
-              data-testid="start-recipe-btn"
               type="button"
+              data-testid="start-recipe-btn"
               style={ {
                 bottom: 0,
                 position: 'fixed',
                 display: finalizedRecipe ? 'none' : 'block',
               } }
-              onClick={ () => setDrinkInProgress(currentDrinkRecipe) }
+              onClick={ () => setDrinkInProgress({
+                id: currentDrinkRecipe.idDrink, ingredientsArray,
+              }) }
             >
               {inProgressRecipes().cocktails[currentDrinkRecipe.idDrink] ? (
                 'Continuar Receita'
