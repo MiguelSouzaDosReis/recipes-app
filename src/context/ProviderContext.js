@@ -22,8 +22,6 @@ const ProviderContext = ({ children }) => {
   const [currentMealRecipe, setCurrentMealRecipe] = useState({});
   const [currentDrinkRecipe, setCurrentDrinkRecipe] = useState({});
   const [doneMeals, setDoneMeals] = useState([{ id: '' }]);
-  const [ingredientsAndMeasureInContext,
-    setingredientsAndMeasureInContext] = useState({});
 
   useEffect(() => {
     const fetchDefault = async () => {
@@ -110,7 +108,6 @@ const ProviderContext = ({ children }) => {
     currentMealRecipe,
     currentDrinkRecipe,
     doneMeals,
-    ingredientsAndMeasureInContext,
     setDrinkNameCategory,
     setMealNameCategory,
     setMealsToken,
@@ -120,7 +117,6 @@ const ProviderContext = ({ children }) => {
     setCurrentMealRecipe,
     setCurrentDrinkRecipe,
     setDoneMeals,
-    setingredientsAndMeasureInContext,
   };
 
   return (
