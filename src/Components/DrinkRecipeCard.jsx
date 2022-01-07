@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import saveFavToLocalStorage from '../helpers/saveRecipeToLocalStorage';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import shareButtonIcon from '../images/shareIcon.svg';
 
+const TIME_TO_HIDE_COPY_MESSAGE = 2000;
 function DrinkRecipeCard({ currentRecipe, ingredientsArray, measureArray }) {
-  const [clipBoard, setClipBoard] = useState('');
+  const [clipBoard, setClipBoard] = useState(false);
   const [isFav, setIsFav] = useState(false);
   useEffect(() => {
     if (localStorage.getItem('favoriteRecipes') !== null) {
@@ -23,6 +24,28 @@ function DrinkRecipeCard({ currentRecipe, ingredientsArray, measureArray }) {
     setIsFav(!isFav);
     saveFavToLocalStorage(currentRecipe, 'bebida');
   };
+
+  async function handleURLCopy() {
+    const currentURL = window.location.href;
+    if ('clipboard' in navigator) {
+      return navigator.clipboard.writeText(currentURL);
+    }
+    return document.execCommand('copy', true, currentURL);
+  }
+
+  const handleShareButtonClick = () => {
+    handleURLCopy()
+      .then(() => {
+        setClipBoard(true);
+        setTimeout(() => {
+          setClipBoard(false);
+        }, TIME_TO_HIDE_COPY_MESSAGE);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <img
@@ -33,17 +56,16 @@ function DrinkRecipeCard({ currentRecipe, ingredientsArray, measureArray }) {
       />
       <h2 data-testid="recipe-title">{currentRecipe.strDrink}</h2>
       <h4 data-testid="recipe-category">{currentRecipe.strAlcoholic}</h4>
-      <CopyToClipboard
-        text={ window.location.href }
-        onCopy={ () => setClipBoard(window.location.href) }
+      <button
+        type="button"
+        onClick={ handleShareButtonClick }
+        data-testid="share-btn"
       >
-        <button
-          data-testid="share-btn"
-          type="button"
-        >
-          Compartilhar
-        </button>
-      </CopyToClipboard>
+        <img
+          src={ shareButtonIcon }
+          alt="Compartilhar"
+        />
+      </button>
       {clipBoard && <p>Link copiado!</p>}
       <button
         type="button"

@@ -5,8 +5,9 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import shareButtonIcon from '../images/shareIcon.svg';
 
+const TIME_TO_HIDE_COPY_MESSAGE = 2000;
 function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
-  const [clipBoard, setClipBoard] = useState('');
+  const [clipBoard, setClipBoard] = useState(false);
   const [isFav, setIsFav] = useState(false);
   useEffect(() => {
     if (localStorage.getItem('favoriteRecipes') !== null) {
@@ -24,15 +25,27 @@ function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
     saveFavToLocalStorage(currentMealRecipe, 'comida');
   };
 
-  const copyURL = () => {
-    const el = document.createElement('input');
-    el.value = window.location.href;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-    setClipBoard(el.value);
+  async function handleURLCopy() {
+    const currentURL = window.location.href;
+    if (navigator.clipboard) {
+      return navigator.clipboard.writeText(currentURL);
+    }
+    return document.execCommand('copy', true, currentURL);
+  }
+
+  const handleShareButtonClick = () => {
+    handleURLCopy()
+      .then(() => {
+        setClipBoard(true);
+        setTimeout(() => {
+          setClipBoard(false);
+        }, TIME_TO_HIDE_COPY_MESSAGE);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
   return (
     <>
       <img
@@ -45,10 +58,10 @@ function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
       <h4 data-testid="recipe-category">{currentMealRecipe.strCategory}</h4>
       <button
         type="button"
-        onClick={ copyURL }
+        onClick={ handleShareButtonClick }
+        data-testid="share-btn"
       >
         <img
-          data-testid="share-btn"
           src={ shareButtonIcon }
           alt="Compartilhar"
         />
