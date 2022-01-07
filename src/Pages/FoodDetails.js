@@ -19,8 +19,7 @@ const doneRecipes = () => (localStorage
 
 function FoodDetails() {
   const { slug } = useParams();
-  const { currentMealRecipe, setCurrentMealRecipe,
-    setingredientsAndMeasureInContext } = useContext(AppContext);
+  const { currentMealRecipe, setCurrentMealRecipe } = useContext(AppContext);
   const [drinksRecomendation, setDrinksRecomendation] = useState([]);
   const [countNextButton, setCountNextButton] = useState(0);
   const ingredientsArray = [];
