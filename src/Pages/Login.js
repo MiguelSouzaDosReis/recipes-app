@@ -31,6 +31,27 @@ function Login({ history }) {
     localStorage.setItem('mealsToken', '1');
     localStorage.setItem('cocktailsToken', '1');
     localStorage.setItem('user', JSON.stringify({ email: inputEmail }));
+    localStorage.setItem('inProgressRecipes ', JSON.stringify({
+      cocktails: {
+        id: '',
+        type: '',
+        area: '',
+        category: '',
+        alcoholicOrNot: '',
+        name: '',
+        image: '',
+      },
+      meals: {
+        id: '',
+        type: '',
+        area: '',
+        category: '',
+        name: '',
+        image: '',
+      },
+    }));
+
+    localStorage.setItem('doneRecipes ', JSON.stringify([]));
     history.push('/comidas');
   }
 

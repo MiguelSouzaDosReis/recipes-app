@@ -16,6 +16,8 @@ import FavoriteRecipes from './Pages/FavoriteRecipes';
 import ProviderContext from './context/ProviderContext';
 import FoodDetails from './Pages/FoodDetails';
 import DrinkDetails from './Pages/DrinkDetails';
+import DrinkRecipeInProcess from './Pages/DrinkRecipeInProcess';
+import FoodRecipeInProcess from './Pages/FoodRecipeInProgress';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -45,6 +47,12 @@ function App() {
           <Route path="/perfil" component={ Profile } />
           <Route exact path="/receitas-feitas" component={ RecipesDone } />
           <Route exact path="/receitas-favoritas" component={ FavoriteRecipes } />
+          <Route
+            exact
+            path="/bebidas/:drink/in-progress"
+            component={ DrinkRecipeInProcess }
+          />
+          <Route path="/comidas/:meal/in-progress" component={ FoodRecipeInProcess } />
         </Switch>
       </ProviderContext>
     </main>

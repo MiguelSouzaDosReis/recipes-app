@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import AppContext from '../context/AppContext';
@@ -8,7 +8,6 @@ import CategoriesButtons from '../Components/CategoriesButtons';
 const inicial = 0;
 const final = 11;
 function FindFoods() {
-  const history = useHistory();
   const {
     meals,
     isFetchLoaded,
@@ -38,11 +37,8 @@ function FindFoods() {
     setMealNameCategory(mealNameCategory === clickedCategory ? '' : clickedCategory);
   };
 
-  const onFoodCardClick = (mealID) => {
-    history.push(`/comidas/${mealID}`);
-  };
-
   const CATEGORIES_LIST_SIZE = 5;
+
   return (
     <main>
       <Header title="Comidas" />
@@ -58,8 +54,7 @@ function FindFoods() {
             filteredMeals.map((meal, index) => (
               <Link
                 key={ meal.idMeal }
-                onClick={ () => onFoodCardClick(meal.idMeal) }
-                href={ `/bebidas/${meal.idMeal}` }
+                to={ `/comidas/${meal.idMeal}` }
               >
                 <article
                   data-testid={ `${index}-recipe-card` }

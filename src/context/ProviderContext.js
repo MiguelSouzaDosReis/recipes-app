@@ -19,18 +19,10 @@ const ProviderContext = ({ children }) => {
   const [drinkCategories, setDrinkCategories] = useState([]);
   const [drinkNameCategory, setDrinkNameCategory] = useState('');
   const [mealNameCategory, setMealNameCategory] = useState('');
-  /* const [doneRecipes, setDoneRecipes] = useState([[{
-    id: '',
-    type: '',
-    area: '',
-    category: '',
-    alcoholicOrNot: '',
-    name: '',
-    image: '',
-    doneDate: '',
-    tags: '',
-}]]);
- */
+  const [currentMealRecipe, setCurrentMealRecipe] = useState({});
+  const [currentDrinkRecipe, setCurrentDrinkRecipe] = useState({});
+  const [doneMeals, setDoneMeals] = useState([{ id: '' }]);
+
   useEffect(() => {
     const fetchDefault = async () => {
       setFetchLoaded(false);
@@ -112,13 +104,19 @@ const ProviderContext = ({ children }) => {
     drinkCategories,
     drinkNameCategory,
     mealNameCategory,
+    isFetchLoaded,
+    currentMealRecipe,
+    currentDrinkRecipe,
+    doneMeals,
     setDrinkNameCategory,
     setMealNameCategory,
     setMealsToken,
     setcocktailsToken,
     setArrayDrinks,
     setArrayMeals,
-    isFetchLoaded,
+    setCurrentMealRecipe,
+    setCurrentDrinkRecipe,
+    setDoneMeals,
   };
 
   return (
