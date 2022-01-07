@@ -2,12 +2,32 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 import fetchDrinkRecipes from '../services/fetchDrinkRecipes';
+import { setDrinkInProgress } from '../services/setRecipeInProgress';
+
+const changeIngredientStyle = (ingredientStyle, name) => {
+  if (ingredientStyle.includes(name)) {
+    return (ingredientStyle
+      .filter((elementsInArray) => elementsInArray !== name));
+  }
+  return ([...ingredientStyle, name]);
+};
+
+const getIngredientStyle = (ingredientStyle, name) => {
+  if (ingredientStyle.includes(name)) {
+    return 'line-through';
+  }
+  return 'none';
+};
 
 function DrinkRecipeInProgress() {
   const { drink } = useParams();
   const { currentDrinkRecipe, setCurrentDrinkRecipe } = useContext(AppContext);
   const { strDrinkThumb, strDrink, strCategory, strInstructions } = currentDrinkRecipe;
-  const [ingredientStyle, setIngredientStyle] = useState([]);
+  const [ingredientStyle, setIngredientStyle] = useState(() => {
+    if (!localStorage.getItem('inProgressRecipes')) return [];
+    const { cocktails } = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    return drink in cocktails ? cocktails[drink] : [];
+  });
   const MAX_INGREDIENT_SIZE = 15;
   const ingredientsArray = [];
   const measureArray = [];
@@ -31,21 +51,10 @@ function DrinkRecipeInProgress() {
     }
   }
 
-  const changeIngredientStyle = (name) => {
-    if (ingredientStyle.includes(name)) {
-      setIngredientStyle(ingredientStyle
-        .filter((elementsInArray) => elementsInArray !== name));
-    } else {
-      setIngredientStyle([...ingredientStyle, name]);
-    }
-  };
-
-  const getIngredientStyle = (name) => {
-    if (ingredientStyle.includes(name)) {
-      return 'line-through';
-    }
-    return 'none';
-  };
+  useEffect(() => {
+    setDrinkInProgress({
+      id: currentDrinkRecipe.idDrink, ingredientsArray: ingredientStyle });
+  }, [ingredientStyle, currentDrinkRecipe.idDrink]);
 
   return (
     <article>
@@ -84,9 +93,18 @@ function DrinkRecipeInProgress() {
                 type="checkbox"
                 value={ element }
                 name={ element }
-                onClick={ () => changeIngredientStyle(element) }
+                checked={
+                  getIngredientStyle(ingredientStyle, element) === 'line-through'
+                }
+                onClick={ () => setIngredientStyle(
+                  changeIngredientStyle(ingredientStyle, element),
+                ) }
               />
-              <span style={ { textDecoration: getIngredientStyle(element) } }>
+              <span
+                style={ {
+                  textDecoration: getIngredientStyle(ingredientStyle, element),
+                } }
+              >
                 {element}
                 {' - '}
                 {measureArray[index]}

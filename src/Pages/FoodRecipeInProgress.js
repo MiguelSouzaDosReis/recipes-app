@@ -2,12 +2,32 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 import fetchFoodRecipe from '../services/fetchFoodRecipes';
+import { setMealsInProgress } from '../services/setRecipeInProgress';
+
+const changeIngredientStyle = (ingredientStyle, name) => {
+  if (ingredientStyle.includes(name)) {
+    return (ingredientStyle
+      .filter((elementsInArray) => elementsInArray !== name));
+  }
+  return ([...ingredientStyle, name]);
+};
+
+const getIngredientStyle = (ingredientStyle, name) => {
+  if (ingredientStyle.includes(name)) {
+    return 'line-through';
+  }
+  return 'none';
+};
 
 function FoodRecipeInProcess() {
   const { meal } = useParams();
   const { currentMealRecipe, setCurrentMealRecipe } = useContext(AppContext);
   const { strMealThumb, strMeal, strCategory, strInstructions } = currentMealRecipe;
-  const [ingredientStyle, setIngredientStyle] = useState([]);
+  const [ingredientStyle, setIngredientStyle] = useState(() => {
+    if (!localStorage.getItem('inProgressRecipes')) return [];
+    const { meals } = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    return meal in meals ? meals[meal] : [];
+  });
   const MAX_INGREDIENT_SIZE = 20;
   const ingredientsArray = [];
   const measureArray = [];
@@ -20,9 +40,13 @@ function FoodRecipeInProcess() {
       recipe.strYoutube = embedLink;
       setCurrentMealRecipe(recipe);
     }
-
     getRecipe();
   }, [setCurrentMealRecipe, meal]);
+
+  useEffect(() => {
+    setMealsInProgress({
+      id: currentMealRecipe.idMeal, ingredientsArray: ingredientStyle });
+  }, [ingredientStyle, currentMealRecipe.idMeal]);
 
   if (currentMealRecipe) {
     for (let i = 1; i <= MAX_INGREDIENT_SIZE; i += 1) {
@@ -34,22 +58,6 @@ function FoodRecipeInProcess() {
       }
     }
   }
-
-  const changeIngredientStyle = (name) => {
-    if (ingredientStyle.includes(name)) {
-      setIngredientStyle(ingredientStyle
-        .filter((elementsInArray) => elementsInArray !== name));
-    } else {
-      setIngredientStyle([...ingredientStyle, name]);
-    }
-  };
-
-  const getIngredientStyle = (name) => {
-    if (ingredientStyle.includes(name)) {
-      return 'line-through';
-    }
-    return 'none';
-  };
 
   return (
     <article>
@@ -88,9 +96,18 @@ function FoodRecipeInProcess() {
                 type="checkbox"
                 value={ element }
                 name={ element }
-                onClick={ () => changeIngredientStyle(element) }
+                checked={
+                  getIngredientStyle(ingredientStyle, element) === 'line-through'
+                }
+                onClick={ () => setIngredientStyle(
+                  changeIngredientStyle(ingredientStyle, element),
+                ) }
               />
-              <span style={ { textDecoration: getIngredientStyle(element) } }>
+              <span
+                style={ {
+                  textDecoration: getIngredientStyle(ingredientStyle, element),
+                } }
+              >
                 {element}
                 {' - '}
                 {measureArray[index]}
