@@ -6,6 +6,7 @@ import AppContext from '../context/AppContext';
 import fetchFoodRecipe from '../services/fetchFoodRecipes';
 import { setMealsInProgress } from '../services/setRecipeInProgress';
 import saveFavToLocalStorage from '../helpers/saveRecipeToLocalStorage';
+import setIngredientsMeasureArray from '../helpers/setIngredientsMeasureArray';
 
 const changeIngredientStyle = (ingredientStyle, name) => {
   if (ingredientStyle.includes(name)) {
@@ -63,21 +64,13 @@ function FoodRecipeInProcess() {
       id: currentMealRecipe.idMeal, ingredientsArray: ingredientStyle });
   }, [ingredientStyle, currentMealRecipe.idMeal]);
 
-  if (currentMealRecipe) {
-    for (let i = 1; i <= MAX_INGREDIENT_SIZE; i += 1) {
-      if (currentMealRecipe[`strIngredient${i}`]) {
-        ingredientsArray.push(currentMealRecipe[`strIngredient${i}`]);
-      }
-      if (currentMealRecipe[`strIngredient${i}`]) {
-        measureArray.push(currentMealRecipe[`strMeasure${i}`]);
-      }
-    }
-  }
-
   const handleFavClick = () => {
     setIsFav(!isFav);
     saveFavToLocalStorage(currentMealRecipe, 'comida');
   };
+  setIngredientsMeasureArray(
+    currentMealRecipe, ingredientsArray, measureArray, MAX_INGREDIENT_SIZE,
+  );
   return (
     <article>
       <img

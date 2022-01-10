@@ -6,6 +6,7 @@ import { setDrinkInProgress } from '../services/setRecipeInProgress';
 import FavoriteButton from '../Components/FavoriteButton';
 import ShareButton from '../Components/ShareButton';
 import saveFavToLocalStorage from '../helpers/saveRecipeToLocalStorage';
+import setIngredientsMeasureArray from '../helpers/setIngredientsMeasureArray';
 
 const changeIngredientStyle = (ingredientStyle, name) => {
   if (ingredientStyle.includes(name)) {
@@ -32,7 +33,6 @@ function DrinkRecipeInProgress() {
     return drink in cocktails ? cocktails[drink] : [];
   });
   const [isFav, setIsFav] = useState(false);
-
   const MAX_INGREDIENT_SIZE = 15;
   const ingredientsArray = [];
   const measureArray = [];
@@ -56,17 +56,6 @@ function DrinkRecipeInProgress() {
     getRecipe();
   }, [setCurrentDrinkRecipe, drink]);
 
-  if (currentDrinkRecipe) {
-    for (let i = 1; i <= MAX_INGREDIENT_SIZE; i += 1) {
-      if (currentDrinkRecipe[`strIngredient${i}`]) {
-        ingredientsArray.push(currentDrinkRecipe[`strIngredient${i}`]);
-      }
-      if (currentDrinkRecipe[`strIngredient${i}`]) {
-        measureArray.push(currentDrinkRecipe[`strMeasure${i}`]);
-      }
-    }
-  }
-
   useEffect(() => {
     setDrinkInProgress({
       id: currentDrinkRecipe.idDrink, ingredientsArray: ingredientStyle });
@@ -76,6 +65,9 @@ function DrinkRecipeInProgress() {
     setIsFav(!isFav);
     saveFavToLocalStorage(currentDrinkRecipe, 'bebida');
   };
+  setIngredientsMeasureArray(
+    currentDrinkRecipe, ingredientsArray, measureArray, MAX_INGREDIENT_SIZE,
+  );
   return (
     <article>
       <img
