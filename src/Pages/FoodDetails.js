@@ -9,11 +9,9 @@ import renderRecomendation from '../helpers/renderRecomendation';
 import isRecipeMealDone from '../helpers/isRecipeMealDone';
 import FoodRecipeCard from '../Components/FoodRecipeCard';
 
-const inProgressRecipes = () => {
-  if (!localStorage.getItem('inProgressRecipes')) return { meals: {} };
-  const { meals } = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  return meals;
-};
+const inProgressRecipes = () => (localStorage
+  .getItem('inProgressRecipes') !== null ? JSON
+    .parse(localStorage.getItem('inProgressRecipes')) : { meals: { }, cocktails: { } });
 
 const doneRecipes = () => (localStorage
   .getItem('doneRecipes') !== null ? JSON

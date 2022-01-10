@@ -9,12 +9,9 @@ import renderRecomendation from '../helpers/renderRecomendation';
 import isRecipeDrinkDone from '../helpers/isRecipeDrinkDone';
 import DrinkRecipeCard from '../Components/DrinkRecipeCard';
 
-const inProgressRecipes = () => {
-  console.log(localStorage.getItem('inProgressRecipes'));
-  if (!localStorage.getItem('inProgressRecipes')) return { cocktails: {} };
-  const { cocktails } = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  return cocktails;
-};
+const inProgressRecipes = () => (localStorage
+  .getItem('inProgressRecipes') !== null ? JSON
+    .parse(localStorage.getItem('inProgressRecipes')) : { meals: { }, cocktails: { } });
 
 const doneRecipes = () => (localStorage
   .getItem('doneRecipes') !== null ? JSON
@@ -59,6 +56,7 @@ function DrinkDetails() {
       .stringify({ ingredientsArray, measureArray }));
 
   const finalizedRecipe = isRecipeDrinkDone(currentDrinkRecipe, doneRecipes);
+  console.log(inProgressRecipes());
   return (
     <main>
       {currentDrinkRecipe && (
