@@ -8,10 +8,13 @@ function ShareButton() {
 
   async function handleURLCopy() {
     const currentURL = window.location.href;
+    const textToCopy = currentURL
+      .match(/in-progress/g) ? currentURL.replace(/\/in-progress/g, '') : currentURL;
+    console.log(textToCopy);
     if ('clipboard' in navigator) {
-      return navigator.clipboard.writeText(currentURL);
+      return navigator.clipboard.writeText(textToCopy);
     }
-    return document.execCommand('copy', true, currentURL);
+    return document.execCommand('copy', true, textToCopy);
   }
 
   const handleShareButtonClick = () => {
