@@ -7,6 +7,7 @@ import FavoriteButton from '../Components/FavoriteButton';
 import ShareButton from '../Components/ShareButton';
 import saveFavToLocalStorage from '../helpers/saveRecipeToLocalStorage';
 import setIngredientsMeasureArray from '../helpers/setIngredientsMeasureArray';
+import saveDoneRecipesToLocalStorage from '../helpers/saveDoneRecipesToLocalStorage';
 
 const changeIngredientStyle = (ingredientStyle, name) => {
   if (ingredientStyle.includes(name)) {
@@ -141,6 +142,7 @@ function DrinkRecipeInProgress() {
           type="button"
           data-testid="finish-recipe-btn"
           disabled={ isDoneButtonDisabled }
+          onClick={ () => saveDoneRecipesToLocalStorage(currentDrinkRecipe, 'bebida') }
         >
           Encerrar Receita
         </button>

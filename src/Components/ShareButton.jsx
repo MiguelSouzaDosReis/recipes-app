@@ -12,7 +12,8 @@ function ShareButton({ type, id, index }) {
     if (type && id) {
       const getUrlPath = () => {
         const url = window.location.href
-          .replace(/\/receitas-favoritas/g, `/${type}s/${id}`);
+          .replace(/\/receitas-favoritas/g, `/${type}s/${id}`)
+          .replace(/\/receitas-feitas/g, `/${type}s/${id}`);
         setUrlPath(url);
       };
       getUrlPath();

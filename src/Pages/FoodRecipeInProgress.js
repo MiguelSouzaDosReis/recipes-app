@@ -7,6 +7,7 @@ import fetchFoodRecipe from '../services/fetchFoodRecipes';
 import { setMealsInProgress } from '../services/setRecipeInProgress';
 import saveFavToLocalStorage from '../helpers/saveRecipeToLocalStorage';
 import setIngredientsMeasureArray from '../helpers/setIngredientsMeasureArray';
+import saveDoneRecipesToLocalStorage from '../helpers/saveDoneRecipesToLocalStorage';
 
 const changeIngredientStyle = (ingredientStyle, name) => {
   if (ingredientStyle.includes(name)) {
@@ -133,6 +134,7 @@ function FoodRecipeInProcess() {
           type="button"
           data-testid="finish-recipe-btn"
           disabled={ isDoneButtonDisabled }
+          onClick={ () => saveDoneRecipesToLocalStorage(currentMealRecipe, 'comida') }
         >
           Encerrar Receita
         </button>
