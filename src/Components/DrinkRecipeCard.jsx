@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import saveFavToLocalStorage from '../helpers/saveRecipeToLocalStorage';
-/* import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg'; */
 import ShareButton from './ShareButton';
 import FavoriteButton from './FavoriteButton';
 
 function DrinkRecipeCard({ currentRecipe, ingredientsArray, measureArray }) {
-  /* const [clipBoard, setClipBoard] = useState(false); */
   const [isFav, setIsFav] = useState(false);
   useEffect(() => {
     if (localStorage.getItem('favoriteRecipes') !== null) {

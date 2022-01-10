@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import saveFavToLocalStorage from '../helpers/saveRecipeToLocalStorage';
-/* import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg'; */
-// import shareButtonIcon from '../images/shareIcon.svg';
 import ShareButton from './ShareButton';
 import FavoriteButton from './FavoriteButton';
 
@@ -27,27 +24,6 @@ function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
     saveFavToLocalStorage(currentMealRecipe, 'comida');
   };
 
-  /* async function handleURLCopy() {
-    const currentURL = window.location.href;
-    if (navigator.clipboard) {
-      return navigator.clipboard.writeText(currentURL);
-    }
-    return document.execCommand('copy', true, currentURL);
-  }
-
-  const handleShareButtonClick = () => {
-    handleURLCopy()
-      .then(() => {
-        setClipBoard(true);
-        setTimeout(() => {
-          setClipBoard(false);
-        }, TIME_TO_HIDE_COPY_MESSAGE);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }; */
-
   return (
     <>
       <img
@@ -64,29 +40,6 @@ function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
         isFav={ isFav }
         setIsFav={ setIsFav }
       />
-      {/* <button
-        type="button"
-        onClick={ handleShareButtonClick }
-        data-testid="share-btn"
-      >
-        <img
-          src={ shareButtonIcon }
-          alt="Compartilhar"
-        />
-      </button> */}
-      {/* {clipBoard && <p>Link copiado!</p>} */}
-      {/* <button
-        type="button"
-        onClick={
-          () => handleFavClick()
-        }
-      >
-        <img
-          data-testid="favorite-btn"
-          src={ isFav ? blackHeartIcon : whiteHeartIcon }
-          alt={ isFav ? 'coração preto' : 'coração branco' }
-        />
-      </button> */}
       <div>
         <ul>
           {
