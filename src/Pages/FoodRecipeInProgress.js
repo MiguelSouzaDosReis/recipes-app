@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import FavoriteButton from '../Components/FavoriteButton';
 import ShareButton from '../Components/ShareButton';
 import AppContext from '../context/AppContext';
@@ -71,6 +71,9 @@ function FoodRecipeInProcess() {
   setIngredientsMeasureArray(
     currentMealRecipe, ingredientsArray, measureArray, MAX_INGREDIENT_SIZE,
   );
+
+  const isDoneButtonDisabled = ingredientsArray.length !== ingredientStyle.length;
+
   return (
     <article>
       <img
@@ -123,12 +126,17 @@ function FoodRecipeInProcess() {
         ))}
       </ul>
       <p data-testid="instructions">{strInstructions}</p>
-      <button
-        type="button"
-        data-testid="finish-recipe-btn"
+      <Link
+        to="/receitas-feitas"
       >
-        Encerrar Receita
-      </button>
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+          disabled={ isDoneButtonDisabled }
+        >
+          Encerrar Receita
+        </button>
+      </Link>
     </article>
   );
 }

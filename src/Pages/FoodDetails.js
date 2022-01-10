@@ -128,7 +128,6 @@ function FoodDetails() {
                 id: currentMealRecipe.idMeal, ingredientsArray: [],
               }) }
             >
-              {console.log(inProgressRecipes().meals)}
               {inProgressRecipes().meals[currentMealRecipe.idMeal] ? (
                 'Continuar Receita'
               ) : ('Iniciar Receita')}
