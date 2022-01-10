@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import AppContext from '../context/AppContext';
+import populateArrays from '../helpers/populateArrays';
 import fetchDrinkRecipes from '../services/fetchDrinkRecipes';
 import { setDrinkInProgress } from '../services/setRecipeInProgress';
 
@@ -22,7 +23,15 @@ const getIngredientStyle = (ingredientStyle, name) => {
 function DrinkRecipeInProgress() {
   const { drink } = useParams();
   const { currentDrinkRecipe, setCurrentDrinkRecipe } = useContext(AppContext);
-  const { strDrinkThumb, strDrink, strCategory, strInstructions } = currentDrinkRecipe;
+  const defaultRecipeShape = {
+    strDrinkThumb: '',
+    strDrink: '',
+    strCategory: '',
+    strInstructions: '',
+  };
+  const {
+    strDrinkThumb, strDrink, strCategory, strInstructions,
+  } = currentDrinkRecipe || defaultRecipeShape;
   const [ingredientStyle, setIngredientStyle] = useState(() => {
     if (!localStorage.getItem('inProgressRecipes')) return [];
     const { cocktails } = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -41,20 +50,17 @@ function DrinkRecipeInProgress() {
   }, [setCurrentDrinkRecipe, drink]);
 
   if (currentDrinkRecipe) {
-    for (let i = 1; i <= MAX_INGREDIENT_SIZE; i += 1) {
-      if (currentDrinkRecipe[`strIngredient${i}`]) {
-        ingredientsArray.push(currentDrinkRecipe[`strIngredient${i}`]);
-      }
-      if (currentDrinkRecipe[`strIngredient${i}`]) {
-        measureArray.push(currentDrinkRecipe[`strMeasure${i}`]);
-      }
-    }
+    populateArrays(
+      currentDrinkRecipe, ingredientsArray, measureArray, MAX_INGREDIENT_SIZE,
+    );
   }
 
   useEffect(() => {
-    setDrinkInProgress({
-      id: currentDrinkRecipe.idDrink, ingredientsArray: ingredientStyle });
-  }, [ingredientStyle, currentDrinkRecipe.idDrink]);
+    if (currentDrinkRecipe) {
+      setDrinkInProgress({
+        id: currentDrinkRecipe.idDrink, ingredientsArray: ingredientStyle });
+    }
+  }, [ingredientStyle, currentDrinkRecipe]);
 
   return (
     <article>

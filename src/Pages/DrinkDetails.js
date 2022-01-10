@@ -4,7 +4,6 @@ import fetchDrinkRecipe from '../services/fetchDrinkRecipes';
 import fetchMealsDefault from '../services/fetchMealsDefault';
 import AppContext from '../context/AppContext';
 import { setDrinkInProgress } from '../services/setRecipeInProgress';
-import CarouselsContainer, { Card, Container } from './style/detailsStyle';
 import renderRecomendation from '../helpers/renderRecomendation';
 import isRecipeDrinkDone from '../helpers/isRecipeDrinkDone';
 import DrinkRecipeCard from '../Components/DrinkRecipeCard';
@@ -65,7 +64,7 @@ function DrinkDetails() {
             ingredientsArray={ ingredientsArray }
             measureArray={ measureArray }
           />
-          <Container>
+          <div>
             <button
               type="button"
               onClick={
@@ -74,7 +73,7 @@ function DrinkDetails() {
             >
               Prev
             </button>
-            <CarouselsContainer>
+            <div>
               {mealsRecomendation && mealsRecomendation.map((meal, index) => (
                 index < RECOMENDATION_CARD_SIZE && (
                   <Link
@@ -84,7 +83,7 @@ function DrinkDetails() {
                       !(index === countNextButton || index === countNextButton + 1)
                     }
                   >
-                    <Card
+                    <article
                       data-testid={ `${index}-recomendation-card` }
                     >
                       <h1
@@ -97,11 +96,11 @@ function DrinkDetails() {
                         alt={ meal.strMeal }
                         data-testid={ `${index}-card-img` }
                       />
-                    </Card>
+                    </article>
                   </Link>
                 )
               ))}
-            </CarouselsContainer>
+            </div>
             <button
               type="button"
               onClick={
@@ -110,7 +109,7 @@ function DrinkDetails() {
             >
               Next
             </button>
-          </Container>
+          </div>
           <Link
             to={ `/bebidas/${currentDrinkRecipe.idDrink}/in-progress` }
           >
