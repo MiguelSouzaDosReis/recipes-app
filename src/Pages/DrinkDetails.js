@@ -126,10 +126,9 @@ function DrinkDetails() {
                 id: currentDrinkRecipe.idDrink, ingredientsArray: [],
               }) }
             >
-              {console.log(inProgressRecipes())}
-              {/* {inProgressRecipes().cocktails[currentDrinkRecipe.idDrink] ? (
+              {inProgressRecipes().cocktails[currentDrinkRecipe.idDrink] ? (
                 'Continuar Receita'
-              ) : ('Iniciar Receita')} */}
+              ) : ('Iniciar Receita')}
             </button>
           </Link>
         </article>
