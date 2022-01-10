@@ -26,7 +26,15 @@ const getIngredientStyle = (ingredientStyle, name) => {
 function DrinkRecipeInProgress() {
   const { drink } = useParams();
   const { currentDrinkRecipe, setCurrentDrinkRecipe } = useContext(AppContext);
-  const { strDrinkThumb, strDrink, strCategory, strInstructions } = currentDrinkRecipe;
+  const defaultRecipeShape = {
+    strDrinkThumb: '',
+    strDrink: '',
+    strCategory: '',
+    strInstructions: '',
+  };
+  const {
+    strDrinkThumb, strDrink, strCategory, strInstructions,
+  } = currentDrinkRecipe || defaultRecipeShape;
   const [ingredientStyle, setIngredientStyle] = useState(() => {
     if (!localStorage.getItem('inProgressRecipes')) return [];
     const { cocktails } = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -57,9 +65,11 @@ function DrinkRecipeInProgress() {
   }, [setCurrentDrinkRecipe, drink]);
 
   useEffect(() => {
-    setDrinkInProgress({
-      id: currentDrinkRecipe.idDrink, ingredientsArray: ingredientStyle });
-  }, [ingredientStyle, currentDrinkRecipe.idDrink]);
+    if (currentDrinkRecipe) {
+      setDrinkInProgress({
+        id: currentDrinkRecipe.idDrink, ingredientsArray: ingredientStyle });
+    }
+  }, [ingredientStyle, currentDrinkRecipe]);
 
   const handleFavClick = () => {
     setIsFav(!isFav);
