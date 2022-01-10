@@ -40,7 +40,7 @@ function Login({ history }) {
       },
     }));
 
-    localStorage.setItem('doneRecipes ', JSON.stringify([]));
+    localStorage.setItem('doneRecipes', JSON.stringify([]));
     history.push('/comidas');
   }
 
