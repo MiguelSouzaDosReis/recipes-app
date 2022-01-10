@@ -1,11 +1,12 @@
 function saveRecipeToLocalStorage(currentRecipe, type) {
   let element = [];
+
+  if (localStorage.getItem('favoriteRecipes')) {
+    element = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  }
+
   if (type === 'comida') {
     const { idMeal, strMeal, strCategory, strArea, strMealThumb } = currentRecipe;
-
-    if (localStorage.getItem('favoriteRecipes')) {
-      element = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    }
 
     if (element.find((recipe) => recipe.id === idMeal)) {
       element = element.filter((elem) => elem.id !== idMeal);
@@ -24,10 +25,6 @@ function saveRecipeToLocalStorage(currentRecipe, type) {
   }
   if (type === 'bebida') {
     const { idDrink, strDrink, strCategory, strAlcoholic, strDrinkThumb } = currentRecipe;
-
-    if (localStorage.getItem('favoriteRecipes')) {
-      element = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    }
 
     if (element.find((recipe) => recipe.id === idDrink)) {
       element = element.filter((elem) => elem.id !== idDrink);

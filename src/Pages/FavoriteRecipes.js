@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../Components/Header';
+import RecipeFavoriteCard from '../Components/RecipeFavoriteCard';
 
 function FavoriteRecipes() {
   return (
@@ -9,6 +10,7 @@ function FavoriteRecipes() {
         hasSearchButton={ false }
       />
       <h1>Favorite Recipes</h1>
+      <RecipeFavoriteCard />
     </main>
   );
 }

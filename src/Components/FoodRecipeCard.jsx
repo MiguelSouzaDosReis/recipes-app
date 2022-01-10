@@ -4,9 +4,7 @@ import saveFavToLocalStorage from '../helpers/saveRecipeToLocalStorage';
 import ShareButton from './ShareButton';
 import FavoriteButton from './FavoriteButton';
 
-// const TIME_TO_HIDE_COPY_MESSAGE = 2000;
 function MealRecipeCard({ currentMealRecipe, ingredientsArray, measureArray }) {
-  // const [clipBoard, setClipBoard] = useState(false);
   const [isFav, setIsFav] = useState(false);
   useEffect(() => {
     if (localStorage.getItem('favoriteRecipes') !== null) {
