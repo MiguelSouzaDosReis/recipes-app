@@ -62,6 +62,7 @@ function RecipeFavoriteCard() {
                 src={ recipe.image }
                 alt={ recipe.name }
                 data-testid={ `${index}-horizontal-image` }
+                style={ { width: '300px' } }
               />
               <h2
                 data-testid={ `${index}-horizontal-name` }
