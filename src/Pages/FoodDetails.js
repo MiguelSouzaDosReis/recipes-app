@@ -11,7 +11,7 @@ import FoodRecipeCard from '../Components/FoodRecipeCard';
 
 const inProgressRecipes = () => (localStorage
   .getItem('inProgressRecipes') !== null ? JSON
-    .parse(localStorage.getItem('inProgressRecipes')) : { meals: { } });
+    .parse(localStorage.getItem('inProgressRecipes')) : { meals: { }, cocktails: { } });
 
 const doneRecipes = () => (localStorage
   .getItem('doneRecipes') !== null ? JSON

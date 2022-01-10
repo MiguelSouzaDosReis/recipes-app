@@ -11,7 +11,7 @@ import DrinkRecipeCard from '../Components/DrinkRecipeCard';
 
 const inProgressRecipes = () => (localStorage
   .getItem('inProgressRecipes') !== null ? JSON
-    .parse(localStorage.getItem('inProgressRecipes')) : { cocktails: { } });
+    .parse(localStorage.getItem('inProgressRecipes')) : { meals: { }, cocktails: { } });
 
 const doneRecipes = () => (localStorage
   .getItem('doneRecipes') !== null ? JSON
@@ -56,6 +56,7 @@ function DrinkDetails() {
       .stringify({ ingredientsArray, measureArray }));
 
   const finalizedRecipe = isRecipeDrinkDone(currentDrinkRecipe, doneRecipes);
+  console.log(inProgressRecipes());
   return (
     <main>
       {currentDrinkRecipe && (
