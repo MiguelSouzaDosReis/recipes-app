@@ -24,7 +24,6 @@ function ShareButton({ type, id, index }) {
     const currentURL = urlPath || window.location.href;
     const textToCopy = currentURL
       .match(/in-progress/g) ? currentURL.replace(/\/in-progress/g, '') : currentURL;
-    console.log(textToCopy);
     if ('clipboard' in navigator) {
       return navigator.clipboard.writeText(textToCopy);
     }
