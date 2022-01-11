@@ -55,7 +55,6 @@ function DrinkDetails() {
       .stringify({ ingredientsArray, measureArray }));
 
   const finalizedRecipe = isRecipeDrinkDone(currentDrinkRecipe, doneRecipes);
-  console.log(inProgressRecipes());
   return (
     <main>
       {currentDrinkRecipe && (
