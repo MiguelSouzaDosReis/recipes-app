@@ -6,7 +6,6 @@ function ExploreFoodsArea() {
   return (
     <main>
       <Header title="Explorar Origem" />
-      <h1>Explore</h1>
       <Footer />
     </main>
   );
