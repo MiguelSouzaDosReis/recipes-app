@@ -22,7 +22,7 @@ function saveDoneRecipesToLocalStorage(currentRecipe, type) {
       ? currentRecipe.strDrinkThumb : currentRecipe.strMealThumb,
     doneDate: newDate(),
     tags: currentRecipe.strTags
-      ? currentRecipe.strTags : currentRecipe.strTags.split(','),
+      && currentRecipe.strTags.split(','),
   };
 
   localStorage

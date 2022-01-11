@@ -71,7 +71,7 @@ function RecipesDone() {
             id={ element.id }
             index={ index }
           />
-          { element.tags.map((tag) => (
+          { element.tags && element.tags.map((tag) => (
             <p
               data-testid={ `${index}-${tag}-horizontal-tag` }
               key={ tag }
