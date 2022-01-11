@@ -1,14 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
+import fetchRandomFoodRecipe from '../services/fetchRandomFoodRecipe';
 
 function ExploreFoods() {
+  const history = useHistory();
+  const onExploreSurpriseButtonClick = async () => {
+    const randomMeal = await fetchRandomFoodRecipe();
+    const { idMeal } = randomMeal;
+    history.push(`/comidas/${idMeal}`);
+  };
   return (
     <main>
       <Header title="Explorar Comidas" hasSearchButton={ false } />
-      <h1>Explorar Comidas</h1>
-      <Footer />
       <Link
         to="/explorar/comidas/ingredientes"
       >
@@ -20,7 +25,7 @@ function ExploreFoods() {
         </button>
       </Link>
       <Link
-        to="/"
+        to="/explorar/comidas/area"
       >
         <button
           type="button"
@@ -35,10 +40,12 @@ function ExploreFoods() {
         <button
           type="button"
           data-testid="explore-surprise"
+          onClick={ onExploreSurpriseButtonClick }
         >
           Me Surpreenda!
         </button>
       </Link>
+      <Footer />
     </main>
   );
 }
