@@ -18,6 +18,7 @@ import FoodDetails from './Pages/FoodDetails';
 import DrinkDetails from './Pages/DrinkDetails';
 import DrinkRecipeInProcess from './Pages/DrinkRecipeInProcess';
 import FoodRecipeInProcess from './Pages/FoodRecipeInProgress';
+import NotFound from './Pages/NotFound';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -52,7 +53,12 @@ function App() {
             path="/bebidas/:drink/in-progress"
             component={ DrinkRecipeInProcess }
           />
-          <Route path="/comidas/:meal/in-progress" component={ FoodRecipeInProcess } />
+          <Route
+            exact
+            path="/comidas/:meal/in-progress"
+            component={ FoodRecipeInProcess }
+          />
+          <Route component={ NotFound } />
         </Switch>
       </ProviderContext>
     </main>
