@@ -7,6 +7,8 @@ import fetchFoodCategories from '../services/fetchFoodCategories';
 import fetchDrinkCategories from '../services/fetchDrinksCategories';
 import fetchDrinksByCategory from '../services/fetchDrinksByCategory';
 import fetchFoodsByCategory from '../services/fetchFoodsByCategory';
+import fetchFoodAreas from '../services/fetchFoodAreas';
+import fetchFoodsByArea from '../services/fetchFoodsByArea';
 
 const ProviderContext = ({ children }) => {
   const [mealsToken, setMealsToken] = useState('');
@@ -22,6 +24,9 @@ const ProviderContext = ({ children }) => {
   const [currentMealRecipe, setCurrentMealRecipe] = useState({});
   const [currentDrinkRecipe, setCurrentDrinkRecipe] = useState({});
   const [doneMeals, setDoneMeals] = useState([{ id: '' }]);
+  const [mealsArea, setMealsArea] = useState([]);
+  const [mealsFilteredByArea, setMealsFilteredByArea] = useState([]);
+  const [currentArea, setCurrentArea] = useState('All');
 
   useEffect(() => {
     const fetchDefault = async () => {
@@ -47,6 +52,24 @@ const ProviderContext = ({ children }) => {
     };
     getFoodCategories();
   }, []);
+
+  useEffect(() => {
+    const getFoodArea = async () => {
+      const foodAreaList = await fetchFoodAreas();
+      foodAreaList.unshift({ strArea: 'All' });
+      setMealsArea(foodAreaList);
+    };
+    getFoodArea();
+  }, []);
+
+  useEffect(() => {
+    const getMealsFilteredByArea = async (area) => {
+      const filteredMealsList = area === 'All'
+        ? await fetchMealsDefault() : await fetchFoodsByArea(area);
+      setMealsFilteredByArea(filteredMealsList);
+    };
+    getMealsFilteredByArea(currentArea);
+  }, [currentArea]);
 
   useEffect(() => {
     const getDrinksCategories = async () => {
@@ -108,6 +131,9 @@ const ProviderContext = ({ children }) => {
     currentMealRecipe,
     currentDrinkRecipe,
     doneMeals,
+    mealsArea,
+    mealsFilteredByArea,
+    currentArea,
     setDrinkNameCategory,
     setMealNameCategory,
     setMealsToken,
@@ -117,6 +143,8 @@ const ProviderContext = ({ children }) => {
     setCurrentMealRecipe,
     setCurrentDrinkRecipe,
     setDoneMeals,
+    setMealsArea,
+    setCurrentArea,
   };
 
   return (
