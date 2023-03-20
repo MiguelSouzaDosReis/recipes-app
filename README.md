@@ -14,3 +14,5 @@ criamos um site de receitas de comidas e bebidas. Na qual o usuário pode:
 - e o nosso site oferece outras receitas que combine com a comida ou bebida da receita que o usuário esteja fazendo.
 
 Para ver o nosso site clique em _[Project Recipes App](https://project-recipes-app.pages.dev/)_
+
+<img src="recipe-app.gif" />
